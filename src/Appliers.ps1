@@ -213,24 +213,27 @@ function Set-PoshPaletteTheme {
         [Parameter(Mandatory)] $Theme,
         [string] $SettingsPath = (Get-WindowsTerminalSettingsPath),
         [string] $ProfilePath  = $PROFILE,
-        [switch] $DryRun
+        [switch] $DryRun,
+        [switch] $Quiet   # the TUI shows its own confirmation panel instead
     )
 
-    Write-Host "Applying '$($Theme.name)'..." -ForegroundColor Cyan
+    if (-not $Quiet) { Write-Host "Applying '$($Theme.name)'..." -ForegroundColor Cyan }
 
     if ($SettingsPath) {
         if (-not $DryRun) { Backup-PoshPaletteFile $SettingsPath | Out-Null }
         Set-PoshPaletteTerminalLayer -Theme $Theme -SettingsPath $SettingsPath -DryRun:$DryRun
-        Write-Host "  Terminal scheme applied (hot-reloads instantly)" -ForegroundColor Green
-    } else {
+        if (-not $Quiet) { Write-Host "  Terminal scheme applied (hot-reloads instantly)" -ForegroundColor Green }
+    } elseif (-not $Quiet) {
         Write-Host "  Windows Terminal settings.json not found - skipping Terminal layer." -ForegroundColor Yellow
         Write-Host "  (This is expected when not on Windows / Windows Terminal.)" -ForegroundColor DarkGray
     }
 
     if (-not $DryRun) { Backup-PoshPaletteFile $ProfilePath | Out-Null }
     Set-PoshPaletteProfileLayer -Theme $Theme -ProfilePath $ProfilePath -DryRun:$DryRun
-    Write-Host "  Prompt + input/output colors applied" -ForegroundColor Green
-    Write-Host "Done. Open a new tab if the prompt didn't refresh." -ForegroundColor Cyan
+    if (-not $Quiet) {
+        Write-Host "  Prompt + input/output colors applied" -ForegroundColor Green
+        Write-Host "Done. Open a new tab if the prompt didn't refresh." -ForegroundColor Cyan
+    }
 }
 
 # --- Revert -------------------------------------------------------------------

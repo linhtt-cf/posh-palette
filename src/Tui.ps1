@@ -48,52 +48,32 @@ function ConvertTo-PPComposition {
 # "#rrggbb" -> "r;g;b" for truecolor ANSI.
 function ConvertTo-PPRgb { param([string] $h) '{0};{1};{2}' -f [convert]::ToInt32($h.Substring(1,2),16), [convert]::ToInt32($h.Substring(3,2),16), [convert]::ToInt32($h.Substring(5,2),16) }
 
-# Visible width of a string, ignoring SGR color escapes.
-function Get-PPVisibleLength { param([string] $s) ($s -replace "$e\[[0-9;]*m", '').Length }
-
-# Render the actual prompt for a resolved theme. If oh-my-posh is available we ask
-# it to print the real prompt for this exact config (generated 'auto' prompt, or a
-# referenced theme under POSH_THEMES_PATH); otherwise we fall back to a simple
-# scheme-colored prompt. Cached per prompt config so scrolling stays responsive.
-$script:PPPromptCache = @{}
-function Get-PoshPalettePromptAnsi {
+# A short, scheme-colored representation of the theme's prompt, as flat hex,text
+# pairs. We draw it ourselves (rather than invoking oh-my-posh) so it stays inside
+# the preview block on every terminal: a real oh-my-posh prompt is full-width, can
+# carry powerline backgrounds, and uses glyphs that mangle when captured. The
+# generated 'auto-*' prompts are drawn to match their real layout; a referenced
+# theme gets a clean generic prompt (its true shape only shows once applied).
+function Get-PoshPalettePromptParts {
     param($Theme)
-    $key = ($Theme.prompt | ConvertTo-Json -Depth 32 -Compress)
-    if ($script:PPPromptCache.ContainsKey($key)) { return $script:PPPromptCache[$key] }
-
-    $ansi = $null
-    $omp  = Get-Command oh-my-posh -ErrorAction SilentlyContinue
-    if ($omp) {
-        $cfg = $null
-        if ($Theme.prompt.generated) {
-            try { $cfg = Save-PoshPalettePrompt -Config $Theme.prompt.config -Name 'pp-preview' } catch { }
-        } elseif ($Theme.prompt.ohMyPoshTheme -and $env:POSH_THEMES_PATH) {
-            $maybe = Join-Path $env:POSH_THEMES_PATH ('{0}.omp.json' -f $Theme.prompt.ohMyPoshTheme)
-            if (Test-Path $maybe) { $cfg = $maybe }
-        }
-        if ($cfg) {
-            try {
-                $out  = & $omp.Source print primary --config $cfg --shell pwsh --pwd 'C:\Users\you\posh-palette' 2>$null
-                $ansi = ($out -join "`n")
-            } catch { }
+    $sc = $Theme.terminal.scheme
+    if ($Theme.prompt.generated) {
+        switch -Wildcard ($Theme.prompt.name) {
+            '*minimal*'   { return @($sc.purple, '❯ ') }
+            '*robby*'     { return @($sc.cyan, '❯❯ ', $sc.blue, 'posh-palette ', $sc.green, 'git:(main) ', $sc.yellow, '18:50 ') }
+            '*powerline*' { return @($sc.blue, ' posh-palette ', $sc.green, ' main ', $sc.purple, '❯ ') }
+            default       { return @($sc.blue, 'posh-palette ', $sc.green, 'main ', $sc.purple, '❯ ') }
         }
     }
-    if ([string]::IsNullOrWhiteSpace($ansi)) {
-        $sc   = $Theme.terminal.scheme
-        $name = if ($Theme.prompt.ohMyPoshTheme) { $Theme.prompt.ohMyPoshTheme } else { 'posh-palette' }
-        $ansi = "$e[38;2;$(ConvertTo-PPRgb $sc.blue)m$name $e[38;2;$(ConvertTo-PPRgb $sc.purple)m❯$e[0m"
-    }
-    $ansi = ($ansi -replace "`r", '' -replace "`n", '').TrimEnd()
-    $script:PPPromptCache[$key] = $ansi
-    $ansi
+    @($sc.cyan, '❯❯ ', $sc.blue, 'posh-palette ', $sc.green, 'git:(main) ')
 }
 
 # A mini terminal session drawn from the theme's own hex values on a filled block
 # of the theme's BACKGROUND color, so the whole thing recolors as you scroll. It
-# renders the real oh-my-posh prompt plus a few representative commands + output.
+# shows a representative prompt plus a few commands + output, all theme-colored.
 function Show-PoshPalettePreview {
     param($Theme, [int] $Left = 42, [int] $Top = 4)
-    $W = 46
+    $W = 48
     $bw = try { [Console]::BufferWidth } catch { 120 }
     if ($bw -lt ($Left + $W + 1)) { return }   # not enough room for a side panel; skip cleanly
 
@@ -116,15 +96,19 @@ function Show-PoshPalettePreview {
         $s + "$e[0m"
     }
 
-    # The real prompt followed by a typed command, on the bg block.
-    $promptAnsi = Get-PoshPalettePromptAnsi $Theme
-    $promptBg   = $promptAnsi -replace [regex]::Escape("$e[0m"), "$e[0m$e[48;2;${bg}m"
-    $promptVis  = Get-PPVisibleLength $promptAnsi
+    # The prompt (drawn from scheme colors) followed by a typed command, on the bg.
+    $promptParts = Get-PoshPalettePromptParts $Theme
+    $promptStr = ' '; $promptVis = 1
+    for ($j = 0; $j -lt $promptParts.Count; $j += 2) {
+        $hex = $promptParts[$j]; if (-not $hex) { $hex = $sc.foreground }
+        $promptStr += "$e[38;2;$(& $rgb $hex)m$($promptParts[$j + 1])"
+        $promptVis += ('' + $promptParts[$j + 1]).Length
+    }
     $prow = {
         param($cmdHex, $cmdText)
         if (-not $cmdHex) { $cmdHex = $sc.foreground }
-        $vis = 1 + $promptVis + 1 + ('' + $cmdText).Length
-        $s = "$e[48;2;${bg}m " + $promptBg + "$e[38;2;$(& $rgb $cmdHex)m $cmdText"
+        $vis = $promptVis + ('' + $cmdText).Length
+        $s = "$e[48;2;${bg}m$promptStr$e[38;2;$(& $rgb $cmdHex)m$cmdText"
         if ($vis -lt $W) { $s += (' ' * ($W - $vis)) }
         $s + "$e[0m"
     }
@@ -247,14 +231,18 @@ function Show-PoshPaletteFontInfo {
 function Show-PoshPaletteApplied {
     param($Theme)
     Write-Host ""
-    Write-Host "  ✓ Applied '$($Theme.name)'" -ForegroundColor Green
+    Write-Host "  ✓ " -ForegroundColor Green -NoNewline
+    Write-Host "Applied $($Theme.name)" -ForegroundColor White
+    Write-PPRule
     Write-Host ""
-    Write-Host "  Next steps" -ForegroundColor Cyan
-    Write-Host "    • Terminal colors update instantly in this window." -ForegroundColor Gray
-    Write-Host "    • Open a NEW tab or window to load the prompt + input colors." -ForegroundColor Gray
-    Write-Host "    • Tweak one layer later, e.g.  Set-PoshPalettePrompt <name>" -ForegroundColor Gray
+    Write-Host "  Terminal colors changed in this window right away." -ForegroundColor Gray
+    Write-Host "  Open a new tab to load the prompt and input colors." -ForegroundColor Gray
     Write-Host ""
-    Write-Host "  [Enter] back to menu     [Q] quit" -ForegroundColor DarkGray
+    Write-Host "  Change one layer anytime:" -ForegroundColor DarkGray
+    Write-Host "    Set-PoshPaletteScheme  <name>" -ForegroundColor Cyan
+    Write-Host "    Set-PoshPalettePrompt  <name>" -ForegroundColor Cyan
+    Write-Host "    Set-PoshPaletteFont    <name>" -ForegroundColor Cyan
+    Write-PPFooter @('Enter  back to menu', 'Q  quit')
     while ($true) {
         $k = [Console]::ReadKey($true)
         if ($k.Key -eq 'Enter' -or $k.Key -eq 'Escape') { return $null }
@@ -270,7 +258,7 @@ function Invoke-PoshPaletteSimpleMode {
     if ($chosen) {
         Clear-Host
         $t = Resolve-PoshPaletteTheme $chosen.Data
-        Set-PoshPaletteTheme -Theme $t
+        Set-PoshPaletteTheme -Theme $t -Quiet
         return (Show-PoshPaletteApplied $t)
     }
 }
@@ -377,7 +365,7 @@ function Invoke-PoshPaletteDetailMode {
             'apply' {
                 Clear-Host
                 $t = Resolve-PoshPaletteTheme (ConvertTo-PPComposition $comp)
-                Set-PoshPaletteTheme -Theme $t
+                Set-PoshPaletteTheme -Theme $t -Quiet
                 return (Show-PoshPaletteApplied $t)   # 'quit' or $null
             }
         }

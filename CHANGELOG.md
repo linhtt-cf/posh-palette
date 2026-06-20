@@ -3,6 +3,22 @@
 All notable changes to PoshPalette are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.3.4]
+
+### Fixed
+- **Cleaner "applied" screen.** Applying from the menu printed the command's own
+  progress lines and then a second confirmation panel that repeated them with
+  mismatched alignment. The menu apply now runs quietly (`Set-PoshPaletteTheme
+  -Quiet`) and shows a single tidy panel.
+- **Preview no longer corrupts.** 0.3.3 embedded the real oh-my-posh prompt in
+  the preview, which broke badly: captured Nerd Font glyphs turned into mojibake,
+  full-width prompts wrapped over the theme list, and powerline segment
+  backgrounds bled across the screen. The preview now draws a short,
+  scheme-colored prompt itself instead of invoking oh-my-posh, so it stays inside
+  its panel on every terminal. Generated `auto-*` prompts are drawn to match
+  their real layout; a referenced theme shows a clean generic prompt (its exact
+  shape still appears once applied, in a new tab).
+
 ## [0.3.3]
 
 ### Added
