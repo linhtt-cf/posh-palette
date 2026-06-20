@@ -144,6 +144,26 @@
   .layer .src{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:11.5px;color:var(--accent);transition:var(--tr);margin-bottom:11px}
   .layer p{margin:0;color:var(--ink-dim);font-size:13.5px;line-height:1.55}
 
+  /* tui showcase */
+  .tui-show{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;margin-bottom:34px}
+  .menu-body{padding:22px 22px 24px}
+  .menu-body .ln{white-space:pre}
+  .menu-mark{color:var(--term-fg);font-weight:700}
+  .menu-name{color:var(--term-fg);font-weight:700}
+  .menu-rule{color:var(--t-com)}
+  .menu-key{color:var(--t-param)}
+  .menu-title{color:var(--term-fg)}
+  .menu-desc{color:var(--t-com)}
+  .menu-hint{color:var(--t-com)}
+  .menu-mk{color:var(--accent)}
+  .menu-sel{background:var(--term-fg);color:var(--term-bg);border-radius:3px;transition:var(--tr)}
+  .menu-sel .menu-key,.menu-sel .menu-title,.menu-sel .menu-desc{color:var(--term-bg)}
+  .tui-feats{list-style:none;padding:0;margin:18px 0 0}
+  .tui-feats li{display:flex;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid var(--hair);font-size:14.5px;color:var(--ink-dim)}
+  .tui-feats li:first-child{border-top:0}
+  .tui-feats b{color:var(--ink);font-weight:600}
+  .tui-feats .ic{color:var(--accent);flex:none;font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:13px;transition:var(--tr)}
+
   /* modes */
   .modes{display:grid;grid-template-columns:1fr 1fr;gap:20px}
   .mode{background:var(--surface);border:1px solid var(--hair);border-radius:8px;padding:30px}
@@ -180,6 +200,7 @@
   @media (max-width:880px){
     .hero{grid-template-columns:1fr;gap:38px}
     .layers{grid-template-columns:1fr 1fr}
+    .tui-show{grid-template-columns:1fr;gap:24px}
     .modes,.open{grid-template-columns:1fr;gap:26px}
     .sec-head-row{grid-template-columns:1fr;gap:14px}
     .nav-links .hide-sm{display:none}
@@ -308,8 +329,37 @@
 <section class="wrap sec">
   <div class="sec-head">
     <div class="sec-head-row">
-      <h2>Browse a look, or build one.</h2>
-      <p class="sec-head-r">Start from a finished theme, or assemble one from the catalogs. Both show a live preview before anything touches your config.</p>
+      <h2>It all happens in one picker.</h2>
+      <p class="sec-head-r">Run <span class="mono" style="color:var(--accent)">palette</span> and you get a keyboard-driven menu: arrow to a mode, watch the preview recolor as you move, and apply without leaving the terminal.</p>
+    </div>
+  </div>
+  <div class="tui-show">
+    <div class="term">
+      <div class="term-bar">
+        <div class="term-tab"><span class="dot" aria-hidden="true"></span>PowerShell</div>
+        <span class="newtab" aria-hidden="true">+</span>
+        <div class="term-ctl mono" aria-hidden="true"><span>─</span><span>◻</span><span>✕</span></div>
+      </div>
+      <div class="term-body menu-body" aria-label="The palette menu">
+        <div class="ln"><span class="menu-mark">&gt;_</span>  <span class="menu-name">Posh Palette</span></div>
+        <div class="ln"><span class="menu-rule">──────────────────────────────────────────────</span></div>
+        <div class="ln"><span class="menu-hint">Style all 4 layers: scheme · PSReadLine · $PSStyle · prompt</span></div>
+        <div class="ln">&nbsp;</div>
+        <div class="ln"><span class="menu-mk">❯</span> <span class="menu-sel"> <span class="menu-key">[1]</span> <span class="menu-title">Simple mode</span>   <span class="menu-desc">Pick a full theme from a list </span></span></div>
+        <div class="ln">   <span class="menu-key">[2]</span> <span class="menu-title">Detail mode</span>   <span class="menu-desc">Compose scheme, colors, prompt</span></div>
+        <div class="ln">   <span class="menu-key">[3]</span> <span class="menu-title">Doctor</span>        <span class="menu-desc">Check fonts, oh-my-posh, terminal</span></div>
+        <div class="ln">   <span class="menu-key">[Q]</span> <span class="menu-title">Quit</span>          <span class="menu-desc">Exit Posh Palette</span></div>
+        <div class="ln">&nbsp;</div>
+        <div class="ln"><span class="menu-hint">↑/↓ move   ·   Enter select   ·   Q quit</span></div>
+      </div>
+    </div>
+    <div>
+      <ul class="tui-feats">
+        <li><span class="ic">↑↓</span><span><b>Arrow-key navigation.</b> Move through every menu and list; number and letter shortcuts still work.</span></li>
+        <li><span class="ic">◧</span><span><b>Live preview.</b> A mini shell renders in the theme's real colors and recolors as you scroll, before anything is written.</span></li>
+        <li><span class="ic">✓</span><span><b>Doctor built in.</b> A preflight check for PowerShell, PSReadLine, oh-my-posh, a Nerd Font, and your terminal settings, with the fix for each.</span></li>
+        <li><span class="ic">↵</span><span><b>Clear confirmation.</b> After you apply, it tells you exactly what changed and what to do next.</span></li>
+      </ul>
     </div>
   </div>
   <div class="modes">
