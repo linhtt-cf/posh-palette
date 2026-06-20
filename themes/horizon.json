@@ -5,7 +5,7 @@
   "scheme": "horizon",
   "palette": "horizon",
   "prompt": "auto",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 93,
   "acrylic": true

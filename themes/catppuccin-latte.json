@@ -5,7 +5,7 @@
   "scheme": "catppuccin-latte",
   "palette": "catppuccin-latte",
   "prompt": "catppuccin-latte",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 100,
   "acrylic": false

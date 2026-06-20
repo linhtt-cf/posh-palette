@@ -5,7 +5,7 @@
   "scheme": "solarized-dark",
   "palette": "solarized-dark",
   "prompt": "night-owl",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 96,
   "acrylic": false

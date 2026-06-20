@@ -5,6 +5,21 @@
 # fetches one straight from the nerd-fonts GitHub releases and installs it for the
 # current user - no admin, no manual unzip - so a fresh machine is one command away.
 
+# Is a font family installed? Reliable only on Windows (font registry); elsewhere
+# we can't tell cheaply, so assume yes and let the apply proceed.
+function Test-PoshPaletteFontInstalled {
+    param([Parameter(Mandatory)][string] $Face)
+    if (-not ($IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop')) { return $true }
+    foreach ($key in 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts',
+                     'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts') {
+        if (Test-Path $key) {
+            $names = (Get-ItemProperty $key).psobject.Properties.Name
+            if ($names | Where-Object { $_ -like "$Face*" }) { return $true }
+        }
+    }
+    return $false
+}
+
 # Map a catalog id (or a raw asset name) to the nerd-fonts release asset.
 function Get-PoshPaletteFontAsset {
     param([Parameter(Mandatory)][string] $Name)

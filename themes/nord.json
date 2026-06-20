@@ -5,7 +5,7 @@
   "scheme": "nord",
   "palette": "nord",
   "prompt": "nord",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 96,
   "acrylic": false

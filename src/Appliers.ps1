@@ -56,6 +56,16 @@ function Set-PoshPaletteTerminalLayer {
     $edits      = Get-PoshPaletteTerminalEdits $Theme
     $schemeName = $edits.SchemeName
 
+    # Don't set a font that isn't installed - that's what makes Windows Terminal
+    # pop the "Unable to find the following fonts" warning. Keep the user's font
+    # and point them at the installer instead.
+    $face = $edits.Defaults.font.face
+    if ($face -and -not (Test-PoshPaletteFontInstalled $face)) {
+        Write-Host "  Font '$face' is not installed - keeping your current terminal font." -ForegroundColor Yellow
+        Write-Host "  Install it with:  Install-PoshPaletteFont robotomono" -ForegroundColor DarkGray
+        $edits.Defaults.Remove('font')
+    }
+
     if ($DryRun) {
         Write-Host "  [dry-run] would write Terminal scheme '$($Theme.name)' to $SettingsPath" -ForegroundColor DarkGray
         return
@@ -85,9 +95,11 @@ function Set-PoshPaletteTerminalLayer {
         $text = Set-JsoncMember $text $defOpen 'opacity' ([string]$edits.Defaults.opacity)
         $defOpen = $text.IndexOf('{', (Find-JsoncMember $text $profOpen 'defaults').ValueStart)
         $text = Set-JsoncMember $text $defOpen 'useAcrylic' ($edits.Defaults.useAcrylic.ToString().ToLower())
-        $defOpen = $text.IndexOf('{', (Find-JsoncMember $text $profOpen 'defaults').ValueStart)
-        $fontJson = ($edits.Defaults.font | ConvertTo-Json -Depth 5 -Compress)
-        $text = Set-JsoncMember $text $defOpen 'font' $fontJson
+        if ($edits.Defaults.Contains('font')) {
+            $defOpen = $text.IndexOf('{', (Find-JsoncMember $text $profOpen 'defaults').ValueStart)
+            $fontJson = ($edits.Defaults.font | ConvertTo-Json -Depth 5 -Compress)
+            $text = Set-JsoncMember $text $defOpen 'font' $fontJson
+        }
 
         # schemes[] upsert by name
         $rootOpen = $text.IndexOf('{')
@@ -118,7 +130,7 @@ function Set-PoshPaletteTerminalLayer {
         $d.colorScheme = $schemeName
         $d.opacity     = $edits.Defaults.opacity
         $d.useAcrylic  = $edits.Defaults.useAcrylic
-        $d.font        = @{ face = $edits.Defaults.font.face; size = $edits.Defaults.font.size }
+        if ($edits.Defaults.Contains('font')) { $d.font = @{ face = $edits.Defaults.font.face; size = $edits.Defaults.font.size } }
         Set-Content -Path $SettingsPath -Value ($settings | ConvertTo-Json -Depth 32) -Encoding utf8
     }
 }

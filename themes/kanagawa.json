@@ -5,7 +5,7 @@
   "scheme": "kanagawa",
   "palette": "kanagawa",
   "prompt": "tokyonight-storm",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 93,
   "acrylic": true

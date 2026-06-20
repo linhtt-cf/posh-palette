@@ -5,7 +5,7 @@
   "scheme": "synthwave",
   "palette": "synthwave",
   "prompt": "auto-robby",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 90,
   "acrylic": true

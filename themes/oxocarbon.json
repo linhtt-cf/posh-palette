@@ -5,7 +5,7 @@
   "scheme": "oxocarbon",
   "palette": "oxocarbon",
   "prompt": "auto",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 94,
   "acrylic": false

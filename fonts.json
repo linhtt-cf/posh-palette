@@ -1,4 +1,5 @@
 [
+  { "id": "robotomono",  "name": "RobotoMono Nerd Font",    "face": "RobotoMono Nerd Font",    "nerd": "RobotoMono" },
   { "id": "jetbrains",   "name": "JetBrainsMono Nerd Font", "face": "JetBrainsMono Nerd Font", "nerd": "JetBrainsMono" },
   { "id": "cascadia",    "name": "CaskaydiaCove Nerd Font", "face": "CaskaydiaCove Nerd Font", "nerd": "CascadiaCode" },
   { "id": "firacode",    "name": "FiraCode Nerd Font",      "face": "FiraCode Nerd Font",      "nerd": "FiraCode" },

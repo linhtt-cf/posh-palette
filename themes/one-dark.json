@@ -5,7 +5,7 @@
   "scheme": "one-dark",
   "palette": "one-dark",
   "prompt": "atomic",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 94,
   "acrylic": false

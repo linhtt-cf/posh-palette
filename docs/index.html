@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code@5/400.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code@5/600.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code@5/700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@5/500.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@5/700.css">
 <style>
   :root{
     --bg:#0B0B12; --surface:#13131D; --raised:#1A1A27;
@@ -28,7 +31,7 @@
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:"Segoe UI Variable Text","Segoe UI Variable","Segoe UI",system-ui,-apple-system,sans-serif;
     line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  .mono{font-family:"Cascadia Code","Cascadia Mono",Consolas,ui-monospace,monospace}
+  .mono{font-family:"Roboto Mono","Cascadia Code",Consolas,ui-monospace,monospace}
   .wrap{max-width:1120px;margin:0 auto;padding-left:28px;padding-right:28px}
   .aura{position:fixed;inset:0;z-index:0;pointer-events:none;
     background:radial-gradient(60% 50% at 78% 6%, var(--glow), transparent 70%);transition:var(--tr)}
@@ -42,12 +45,12 @@
   .nav-links{display:flex;gap:26px;align-items:center;font-size:14px}
   .nav-links a{color:var(--ink-dim);text-decoration:none;transition:color .2s}
   .nav-links a:hover{color:var(--ink)}
-  .tag{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11px;color:var(--ink-faint);border:1px solid var(--hair);border-radius:999px;padding:4px 10px}
+  .tag{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:11px;color:var(--ink-faint);border:1px solid var(--hair);border-radius:999px;padding:4px 10px}
 
   /* hero */
   header{position:relative;z-index:2;padding:54px 0 72px;min-height:calc(100vh - 50px);display:flex;align-items:center}
   .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
-  .eyebrow{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  .eyebrow{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--accent);margin-bottom:20px;transition:var(--tr)}
   h1{font-size:clamp(27px,3.5vw,42px);line-height:1.1;letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
   h1 .l1{display:block;white-space:nowrap}
@@ -56,18 +59,18 @@
   .lede{font-size:18px;color:var(--ink-dim);max-width:36ch;margin:0 0 28px}
 
   /* get-started block */
-  .start-label{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  .start-label{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
     color:var(--ink-faint);margin-bottom:10px}
   .runbox{background:var(--surface);border:1px solid var(--hair);border-radius:6px;padding:14px 16px;
-    max-width:430px;margin-bottom:24px;font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:14px}
+    max-width:430px;margin-bottom:24px;font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:14px}
   .runbox .row{display:flex;align-items:center;gap:12px}
   .runbox .row + .row{margin-top:9px}
   .runbox .pmt{color:var(--accent);transition:var(--tr)}
   .runbox .hint{color:var(--ink-faint)}
-  .req{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11.5px;color:var(--ink-faint);margin:-14px 0 24px}
+  .req{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:11.5px;color:var(--ink-faint);margin:-14px 0 24px}
   .req b{color:var(--ink-dim);font-weight:600}
   .runbox button{margin-left:auto;background:var(--raised);border:1px solid var(--hair-strong);color:var(--ink-dim);
-    font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11px;border-radius:4px;padding:6px 9px;cursor:pointer;transition:.2s}
+    font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:11px;border-radius:4px;padding:6px 9px;cursor:pointer;transition:.2s}
   .runbox button:hover{color:var(--ink);border-color:var(--accent)}
 
   .ctas{display:flex;gap:14px;flex-wrap:wrap}
@@ -85,11 +88,11 @@
     box-shadow:0 30px 80px -30px var(--glow),0 18px 40px -22px rgba(0,0,0,.7);background:var(--term-bg);transition:var(--tr)}
   .term-bar{display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(0,0,0,.22);border-bottom:1px solid rgba(255,255,255,.06)}
   .term-tab{display:flex;align-items:center;gap:8px;background:var(--term-bg);transition:var(--tr);
-    border-radius:6px 6px 0 0;padding:6px 13px;font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:12px;color:var(--term-fg)}
+    border-radius:6px 6px 0 0;padding:6px 13px;font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:12px;color:var(--term-fg)}
   .term-tab .dot{width:9px;height:9px;border-radius:3px;background:var(--t-cmd);transition:var(--tr)}
   .newtab{color:var(--term-fg);opacity:.5;font-size:15px;line-height:1;padding:0 9px}
   .term-ctl{margin-left:auto;display:flex;gap:18px;color:var(--term-fg);opacity:.5;font-size:12px}
-  .term-body{padding:20px 20px 26px;font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:13.5px;line-height:1.85;
+  .term-body{padding:20px 20px 26px;font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:13.5px;line-height:1.85;
     color:var(--term-fg);overflow-x:auto;transition:var(--tr)}
   .term-body .ln{white-space:pre}
   .c-cmd{color:var(--t-cmd)} .c-param{color:var(--t-param)} .c-str{color:var(--t-str)}
@@ -103,10 +106,10 @@
 
   /* theme switcher */
   .switcher{margin-top:24px;display:flex;flex-direction:column;gap:14px}
-  .switcher .label{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.13em}
+  .switcher .label{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.13em}
   .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .chip{display:flex;align-items:center;gap:10px;cursor:pointer;background:var(--surface);border:1px solid var(--hair);
-    border-radius:8px;padding:9px 12px 9px 9px;color:var(--ink-dim);text-decoration:none;font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;
+    border-radius:8px;padding:9px 12px 9px 9px;color:var(--ink-dim);text-decoration:none;font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;
     font-size:12.5px;min-width:0;transition:transform .22s,box-shadow .22s,border-color .22s,color .22s}
   .chip:hover{color:var(--ink);transform:translateY(-3px);border-color:var(--hair-strong)}
   .chip[aria-pressed="true"]{color:var(--ink);border-color:transparent;background:var(--raised);
@@ -131,20 +134,20 @@
   /* layers */
   .layers{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
   .layer{background:var(--surface);border:1px solid var(--hair);border-radius:8px;padding:18px;display:flex;flex-direction:column}
-  .layer .idx{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11px;color:var(--ink-faint);margin-bottom:12px}
+  .layer .idx{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:11px;color:var(--ink-faint);margin-bottom:12px}
   .demo{background:var(--term-bg);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:14px;
-    font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:12px;line-height:1.6;height:96px;display:flex;
+    font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:12px;line-height:1.6;height:96px;display:flex;
     flex-direction:column;justify-content:center;gap:2px;color:var(--term-fg);transition:var(--tr);margin-bottom:18px;overflow:hidden}
   .ansi{display:flex;gap:5px}
   .ansi i{width:17px;height:17px;border-radius:4px;display:block;transition:var(--tr)}
   .layer h3{font-size:17px;margin:0 0 7px;letter-spacing:-.01em}
-  .layer .src{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11.5px;color:var(--accent);transition:var(--tr);margin-bottom:11px}
+  .layer .src{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:11.5px;color:var(--accent);transition:var(--tr);margin-bottom:11px}
   .layer p{margin:0;color:var(--ink-dim);font-size:13.5px;line-height:1.55}
 
   /* modes */
   .modes{display:grid;grid-template-columns:1fr 1fr;gap:20px}
   .mode{background:var(--surface);border:1px solid var(--hair);border-radius:8px;padding:30px}
-  .mode .num{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:13px;color:var(--accent);transition:var(--tr)}
+  .mode .num{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:13px;color:var(--accent);transition:var(--tr)}
   .mode h3{font-size:22px;margin:10px 0 10px;letter-spacing:-.015em}
   .mode p{color:var(--ink-dim);margin:0;font-size:15px}
 
@@ -154,10 +157,10 @@
   .open ul{list-style:none;padding:0;margin:24px 0 0}
   .open li{display:flex;gap:14px;align-items:baseline;padding:11px 0;border-top:1px solid var(--hair);font-size:15px;color:var(--ink-dim)}
   .open li b{color:var(--ink);font-weight:600}
-  .open li .k{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;color:var(--accent);font-size:13px;min-width:96px;flex:none;transition:var(--tr)}
+  .open li .k{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;color:var(--accent);font-size:13px;min-width:96px;flex:none;transition:var(--tr)}
   .open .note{color:var(--ink-dim);margin:24px 0 0}
   .code{background:var(--term-bg);border:1px solid var(--hair-strong);border-radius:8px;padding:20px 22px;
-    font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:13.5px;transition:var(--tr)}
+    font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:13.5px;transition:var(--tr)}
   .code .file{display:block;color:var(--t-com);font-size:11.5px;margin-bottom:13px;transition:var(--tr)}
   .codepre{margin:0;font:inherit;line-height:1.85;white-space:pre;overflow-x:auto;color:var(--term-fg)}
   .jk{color:var(--t-cmd)} .js{color:var(--t-str)} .jp{color:var(--ink-faint)}
@@ -170,7 +173,7 @@
   .foot-links{display:flex;gap:22px;flex-wrap:wrap;font-size:14px}
   .foot-links a{color:var(--ink-dim);text-decoration:none}
   .foot-links a:hover{color:var(--ink)}
-  .meta{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:12px;color:var(--ink-faint);width:100%;margin-top:6px}
+  .meta{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:12px;color:var(--ink-faint);width:100%;margin-top:6px}
 
   :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 

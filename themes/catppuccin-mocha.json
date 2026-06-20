@@ -5,7 +5,7 @@
   "scheme": "catppuccin-mocha",
   "palette": "catppuccin-mocha",
   "prompt": "catppuccin-mocha",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 95,
   "acrylic": true

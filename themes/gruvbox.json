@@ -5,7 +5,7 @@
   "scheme": "gruvbox",
   "palette": "gruvbox",
   "prompt": "gruvbox",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 94,
   "acrylic": false

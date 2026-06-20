@@ -5,7 +5,7 @@
   "scheme": "green-phosphor",
   "palette": "green-phosphor",
   "prompt": "auto-minimal",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 96,
   "acrylic": false

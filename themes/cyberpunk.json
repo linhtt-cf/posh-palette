@@ -5,7 +5,7 @@
   "scheme": "cyberpunk",
   "palette": "cyberpunk",
   "prompt": "auto-powerline",
-  "font": "jetbrains",
+  "font": "robotomono",
   "fontSize": 11,
   "opacity": 92,
   "acrylic": true

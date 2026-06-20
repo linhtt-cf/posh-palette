@@ -20,21 +20,49 @@ function ConvertTo-PPComposition {
     [pscustomobject]$h
 }
 
-# A faithful mock of a styled prompt + typed command + output, drawn from the
-# theme's own hex values. Stands in for the layers a full-screen TUI hides.
+# A mini terminal drawn from the theme's own hex values, rendered on a filled
+# block of the theme's BACKGROUND color so the whole thing recolors as you scroll
+# (a foreground-only preview looked static on the host terminal's dark bg).
 function Show-PoshPalettePreview {
-    param($Theme, [int] $Left = 40, [int] $Top = 3)
+    param($Theme, [int] $Left = 42, [int] $Top = 2)
+    $sc = $Theme.terminal.scheme
     $pr = $Theme.psReadLine
-    $line = { param($n,$txt) [Console]::SetCursorPosition($Left, $Top + $n); Write-Host $txt }
+    $ps = $Theme.psStyle
+    $W  = 42
+    $rgb = { param($h) '{0};{1};{2}' -f [convert]::ToInt32($h.Substring(1,2),16), [convert]::ToInt32($h.Substring(3,2),16), [convert]::ToInt32($h.Substring(5,2),16) }
+    $bg  = & $rgb $sc.background
 
-    & $line 0 (Write-Fg $Theme.terminal.scheme.purple '  Preview')
-    & $line 1 ''
-    & $line 2 ((Write-Fg $Theme.terminal.scheme.green '  user') + (Write-Fg $pr.Comment ' in ') + (Write-Fg $Theme.terminal.scheme.blue '~/projects') + (Write-Fg $Theme.terminal.scheme.purple ' ❯'))
-    & $line 3 ('  ' + (Write-Fg $pr.Command 'git') + ' ' + (Write-Fg $pr.Parameter 'commit') + ' ' + (Write-Fg $pr.Parameter '-m') + ' ' + (Write-Fg $pr.String '"feat: theme"'))
-    & $line 4 ('  ' + (Write-Fg $pr.Variable '$count') + ' ' + (Write-Fg $pr.Operator '=') + ' ' + (Write-Fg $pr.Number '42'))
-    & $line 5 ('  ' + (Write-Fg $pr.Comment '# a comment'))
-    & $line 6 ('  ' + (Write-Fg $Theme.psStyle.Directory 'Documents/') + '  ' + (Write-Fg $pr.Default 'README.md'))
-    & $line 7 ('  ' + (Write-Fg $Theme.psStyle.Error 'Error: something failed'))
+    # Build one line from a flat list of hex,text,hex,text... on the bg block.
+    $row = {
+        param([object[]] $parts)
+        $s = "$e[48;2;${bg}m"; $len = 0
+        for ($j = 0; $j -lt $parts.Count; $j += 2) {
+            $hex = $parts[$j]; if (-not $hex) { $hex = $sc.foreground }
+            $s += "$e[38;2;$(& $rgb $hex)m$($parts[$j + 1])"
+            $len += ('' + $parts[$j + 1]).Length
+        }
+        if ($len -lt $W) { $s += (' ' * ($W - $len)) }
+        $s + "$e[0m"
+    }
+
+    $lines = @(
+        (& $row @($sc.purple, '  preview'))
+        (& $row @($null, ''))
+        (& $row @($sc.green, '  user', $pr.Comment, ' in ', $sc.blue, '~/projects', $sc.purple, ' ❯'))
+        (& $row @($pr.Command, '  git', $null, ' ', $pr.Parameter, 'commit', $null, ' ', $pr.Parameter, '-m', $null, ' ', $pr.String, '"feat: theme"'))
+        (& $row @($pr.Variable, '  $count', $pr.Operator, ' = ', $pr.Number, '42'))
+        (& $row @($pr.Comment, '  # tidy up'))
+        (& $row @($ps.Directory, '  Documents/', $null, '  README.md'))
+        (& $row @($ps.Error, '  Error: build failed'))
+        (& $row @($null, ''))
+        (& $row @($sc.green, '  user', $pr.Comment, ' in ', $sc.blue, '~/projects', $sc.purple, ' ❯ '))
+    )
+
+    [Console]::CursorVisible = $false
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        try { [Console]::SetCursorPosition($Left, $Top + $i); [Console]::Write($lines[$i]) } catch { }
+    }
+    [Console]::Write("$e[0m")
 }
 
 # Generic scrollable picker. Items need a .Name; returns the chosen item or $null.
@@ -181,21 +209,42 @@ function Invoke-PoshPaletteDetailMode {
 function Start-PoshPalette {
     [CmdletBinding()]
     param()
-    while ($true) {
-        Clear-Host
-        Write-Host ""
-        Write-Host "  ██ Posh Palette" -ForegroundColor Magenta
-        Write-Host "  Style your PowerShell + Windows Terminal across all 4 layers.`n" -ForegroundColor DarkGray
-        Write-Host "  [1] Simple mode  - scroll a list of full themes, pick one"
-        Write-Host "  [2] Detail mode  - compose each layer (scheme / colors / prompt / font)"
-        Write-Host "  [3] Doctor       - check your setup (fonts, oh-my-posh, terminal)"
-        Write-Host "  [Q] Quit`n"
-        $key = [Console]::ReadKey($true)
-        switch ($key.KeyChar) {
-            '1' { Invoke-PoshPaletteSimpleMode }
-            '2' { Invoke-PoshPaletteDetailMode }
-            '3' { Clear-Host; Test-PoshPaletteSetup | Out-Null; Write-Host "  Press any key to return..." -ForegroundColor DarkGray; [Console]::ReadKey($true) | Out-Null }
-            { $_ -in 'q', 'Q' } { return }
+    $items = @(
+        @{ Label = 'Simple mode   scroll a list of full themes, pick one';        Run = { Invoke-PoshPaletteSimpleMode } }
+        @{ Label = 'Detail mode   compose each layer (scheme/colors/prompt/font)'; Run = { Invoke-PoshPaletteDetailMode } }
+        @{ Label = 'Doctor        check your setup (fonts, oh-my-posh, terminal)'; Run = { Clear-Host; Test-PoshPaletteSetup | Out-Null; Write-Host "`n  Press any key to return..." -ForegroundColor DarkGray; [Console]::ReadKey($true) | Out-Null } }
+    )
+    $idx = 0
+    [Console]::CursorVisible = $false
+    try {
+        while ($true) {
+            Clear-Host
+            Write-Host ""
+            Write-Host "  ██ Posh Palette" -ForegroundColor Magenta
+            Write-Host "  Style your PowerShell + Windows Terminal across all 4 layers." -ForegroundColor DarkGray
+            Write-Host "  ↑/↓ move   Enter select   Q quit`n" -ForegroundColor DarkGray
+            for ($i = 0; $i -lt $items.Count; $i++) {
+                $marker = if ($i -eq $idx) { '❯' } else { ' ' }
+                $color  = if ($i -eq $idx) { 'White' } else { 'DarkGray' }
+                Write-Host ("  $marker [$($i + 1)] $($items[$i].Label)") -ForegroundColor $color
+            }
+            Write-Host ""
+
+            $key = [Console]::ReadKey($true)
+            # arrow navigation
+            switch ($key.Key) {
+                'UpArrow'   { $idx = ($idx - 1 + $items.Count) % $items.Count }
+                'DownArrow' { $idx = ($idx + 1) % $items.Count }
+                'Enter'     { & $items[$idx].Run }
+                'Escape'    { return }
+            }
+            # number shortcuts + quit (arrow keys have KeyChar 0, so no double-fire)
+            switch ($key.KeyChar) {
+                '1' { & $items[0].Run }
+                '2' { & $items[1].Run }
+                '3' { & $items[2].Run }
+                { $_ -in 'q', 'Q' } { return }
+            }
         }
-    }
+    } finally { [Console]::CursorVisible = $true }
 }

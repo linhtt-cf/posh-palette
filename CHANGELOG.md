@@ -3,6 +3,20 @@
 All notable changes to PoshPalette are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.3.1]
+
+### Changed
+- Default font is now **RobotoMono Nerd Font** across all bundled themes (was
+  JetBrainsMono). The showcase site renders previews in Roboto Mono to match.
+
+### Fixed
+- **No more "Unable to find the following fonts" warning / hang on apply.** A theme
+  whose font isn't installed now keeps your current terminal font and points you to
+  `Install-PoshPaletteFont`, instead of writing a missing font into `settings.json`.
+- **Simple-mode preview** now renders on the theme's actual background color, so it
+  recolors as you scroll (it looked static before).
+- **Main menu** is arrow-navigable (up/down + Enter); number keys still work.
+
 ## [0.3.0]
 
 ### Added

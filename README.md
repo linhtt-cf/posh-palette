@@ -55,7 +55,7 @@ Each command edits just that slot on top of your current look:
 Set-PoshPaletteScheme  nord           # color scheme (Windows Terminal bg + 16 ANSI)
 Set-PoshPaletteColors  tokyo-night    # input + output colors (PSReadLine / $PSStyle)
 Set-PoshPalettePrompt  agnoster       # the oh-my-posh prompt
-Set-PoshPaletteFont    jetbrains      # the terminal font
+Set-PoshPaletteFont    robotomono      # the terminal font
 Set-PoshPaletteLayer -Opacity 90 -Acrylic $true -FontSize 12   # window + size
 ```
 
@@ -96,7 +96,7 @@ Test-PoshPaletteSetup        # or: palette, then [3] Doctor
 binaries, so it pulls one from the [nerd-fonts](https://www.nerdfonts.com/font-downloads)
 releases for you:
 ```powershell
-Install-PoshPaletteFont jetbrains      # any font id from the catalog
+Install-PoshPaletteFont robotomono     # any font id from the catalog
 Install-PoshPaletteFont CascadiaCode   # or a raw Nerd Font name
 ```
 
