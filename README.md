@@ -68,9 +68,16 @@ tweaks stack: install a theme, then swap just its prompt, then just its font.
 
 Every command takes `-DryRun` to preview without writing.
 
+**Reset to default** (stock Campbell scheme + Cascadia Mono + default prompt) for a
+clean, repeatable baseline, e.g. to demo before/after. Also in the menu as `[4] Reset`:
+```powershell
+Reset-PoshPalette                   # back to the stock default look
+Reset-PoshPalette -DryRun           # preview without writing
+```
+
 **Revert** (restores `settings.json` from the newest backup and removes the profile block):
 ```powershell
-Restore-PoshPalette                 # full revert
+Restore-PoshPalette                 # full revert to your previous state
 Restore-PoshPalette -WhatIf         # show what it would do
 Restore-PoshPalette -KeepProfileBlock   # revert Terminal only
 ```

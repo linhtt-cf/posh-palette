@@ -35,7 +35,7 @@ function Install-PoshPaletteTheme {
 Set-Alias -Name palette -Value Start-PoshPalette
 
 Export-ModuleMember -Function Start-PoshPalette, Install-PoshPaletteTheme, Get-PoshPaletteThemes,
-    Set-PoshPaletteTheme, Import-PoshPaletteTheme, Restore-PoshPalette,
+    Set-PoshPaletteTheme, Import-PoshPaletteTheme, Restore-PoshPalette, Reset-PoshPalette,
     Import-PoshPaletteScheme, Get-PoshPaletteRemoteCatalog, Save-PoshPaletteRemoteTheme,
     Test-PoshPaletteSetup, Install-PoshPaletteFont,
     Set-PoshPaletteScheme, Set-PoshPaletteColors, Set-PoshPalettePrompt, Set-PoshPaletteFont, Set-PoshPaletteLayer -Alias palette

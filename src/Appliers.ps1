@@ -286,3 +286,73 @@ function Restore-PoshPalette {
 
     Write-Host "Restart PowerShell for the prompt/input/output to fully revert." -ForegroundColor Cyan
 }
+
+# --- Reset to default ---------------------------------------------------------
+
+# Force the stock default look (Windows Terminal's Campbell scheme + Cascadia
+# Mono, no opacity/acrylic, the default PowerShell prompt) - a clean, repeatable
+# baseline, e.g. to demo "before -> after". Unlike Restore-PoshPalette (which
+# restores your backup), this sets known defaults regardless of prior state.
+function Reset-PoshPaletteTerminalDefaults {
+    param([string] $SettingsPath, [switch] $DryRun)
+    if (-not $SettingsPath) { return }
+    if ($DryRun) { Write-Host "  [dry-run] would reset Terminal defaults in $SettingsPath" -ForegroundColor DarkGray; return }
+    $text = Get-Content $SettingsPath -Raw
+    try {
+        $rootOpen = $text.IndexOf('{')
+        $prof = Find-JsoncMember $text $rootOpen 'profiles'
+        if (-not $prof) { return }
+        $profOpen = $text.IndexOf('{', $prof.ValueStart)
+        if (-not (Find-JsoncMember $text $profOpen 'defaults')) { return }
+        $get = { $text.IndexOf('{', (Find-JsoncMember $text $profOpen 'defaults').ValueStart) }
+        $text = Set-JsoncMember $text (& $get) 'colorScheme' '"Campbell"'
+        $text = Set-JsoncMember $text (& $get) 'opacity'     '100'
+        $text = Set-JsoncMember $text (& $get) 'useAcrylic'  'false'
+        $text = Set-JsoncMember $text (& $get) 'font'        '{ "face": "Cascadia Mono" }'
+        $null = ConvertFrom-Jsonc $text
+        Set-Content -Path $SettingsPath -Value $text -Encoding utf8
+    } catch { Write-Verbose "Reset terminal defaults failed: $_" }
+}
+
+function Reset-PoshPalette {
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [string] $SettingsPath = (Get-WindowsTerminalSettingsPath),
+        [string] $ProfilePath  = $PROFILE,
+        [switch] $DryRun,
+        [switch] $Quiet
+    )
+
+    if (-not $Quiet) { Write-Host "Resetting to the default look..." -ForegroundColor Cyan }
+
+    # Layer 1: stock Windows Terminal defaults.
+    if ($SettingsPath) {
+        if (-not $DryRun) { Backup-PoshPaletteFile $SettingsPath | Out-Null }
+        Reset-PoshPaletteTerminalDefaults -SettingsPath $SettingsPath -DryRun:$DryRun
+        if (-not $Quiet) { Write-Host "  Terminal reset to Campbell + Cascadia Mono" -ForegroundColor Green }
+    }
+
+    # Layers 2-4: drop the managed block so the prompt/colors fall back to default.
+    if (Test-Path $ProfilePath) {
+        if (-not $DryRun) { Backup-PoshPaletteFile $ProfilePath | Out-Null }
+        $content = Get-Content $ProfilePath -Raw
+        $pattern = "(?s)\r?\n?$([regex]::Escape($script:BlockStart)).*?$([regex]::Escape($script:BlockEnd))\r?\n?"
+        if ($content -match $pattern) {
+            if (-not $DryRun) {
+                $new = ([regex]::Replace($content, $pattern, "`n")).TrimEnd() + "`n"
+                Set-Content -Path $ProfilePath -Value $new -Encoding utf8
+            }
+            if (-not $Quiet) { Write-Host "  Prompt + input/output colors reset" -ForegroundColor Green }
+        }
+    }
+
+    if (-not $DryRun) {
+        # Forget the active composition so tweaks start fresh.
+        $cur = Join-Path $HOME '.poshpalette/current.json'
+        if (Test-Path $cur) { Remove-Item $cur -Force }
+        # Best-effort live reset of this session's prompt (oh-my-posh sets one).
+        if (Test-Path Function:\prompt) { Remove-Item Function:\prompt -ErrorAction SilentlyContinue }
+    }
+
+    if (-not $Quiet) { Write-Host "Done. Terminal colors update now; open a new tab for the default prompt." -ForegroundColor Cyan }
+}

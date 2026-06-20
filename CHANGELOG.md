@@ -3,6 +3,16 @@
 All notable changes to PoshPalette are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.4.1]
+
+### Added
+- **Reset to default.** A new `[4] Reset` menu item and `Reset-PoshPalette` command
+  return the terminal to the stock default look (Campbell scheme, Cascadia Mono, no
+  opacity/acrylic, the default PowerShell prompt) - a clean, repeatable baseline,
+  handy for demoing the before/after. Unlike `Restore-PoshPalette` (which restores
+  your most recent backup), this sets known defaults regardless of prior state. It
+  backs up first and preserves your `settings.json` comments.
+
 ## [0.4.0]
 
 ### Changed

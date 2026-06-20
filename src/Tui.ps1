@@ -254,6 +254,26 @@ function Show-PoshPaletteApplied {
     }
 }
 
+# Reset everything to the stock default look, then confirm. Returns 'quit'/$null.
+function Invoke-PoshPaletteReset {
+    Clear-Host
+    Reset-PoshPalette -Quiet
+    Write-Host ""
+    Write-Host "  ✓ " -ForegroundColor Green -NoNewline
+    Write-Host "Reset to the default look" -ForegroundColor White
+    Write-PPRule
+    Write-Host ""
+    Write-Host "  Terminal is back to Campbell + Cascadia Mono." -ForegroundColor Gray
+    Write-Host "  Open a new tab to see the default prompt." -ForegroundColor Gray
+    Write-Host "  Then pick a theme to show the before/after." -ForegroundColor Gray
+    Write-PPFooter @('Enter  back to menu', 'Q  quit')
+    while ($true) {
+        $k = [Console]::ReadKey($true)
+        if ($k.Key -eq 'Enter' -or $k.Key -eq 'Escape') { return $null }
+        if ([string]$k.KeyChar -in 'q', 'Q')            { return 'quit' }
+    }
+}
+
 function Invoke-PoshPaletteSimpleMode {
     $themes = Get-PoshPaletteThemes
     $chosen = Show-PoshPaletteList -Title 'Simple mode - pick a theme' -Items $themes -PreviewFor {
@@ -440,6 +460,7 @@ function Start-PoshPalette {
         @{ Key = '1'; Title = 'Simple mode'; Desc = 'Pick a full theme from a scrollable list';   Run = { Invoke-PoshPaletteSimpleMode } }
         @{ Key = '2'; Title = 'Detail mode'; Desc = 'Compose scheme, colors, prompt, font';        Run = { Invoke-PoshPaletteDetailMode } }
         @{ Key = '3'; Title = 'Doctor';      Desc = 'Check fonts, oh-my-posh, terminal';           Run = { Clear-Host; Test-PoshPaletteSetup | Out-Null; Write-Host "`n  [Enter] back to menu" -ForegroundColor DarkGray; [Console]::ReadKey($true) | Out-Null } }
+        @{ Key = '4'; Title = 'Reset';       Desc = 'Back to the default look (for before/after)'; Run = { Invoke-PoshPaletteReset } }
         @{ Key = 'Q'; Title = 'Quit';        Desc = 'Exit Posh Palette';                           Run = { 'quit' } }
     )
     $titleW = Get-PPMaxLen ($items | ForEach-Object { $_.Title })
