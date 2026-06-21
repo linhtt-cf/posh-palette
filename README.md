@@ -1,13 +1,17 @@
 # Posh Palette
 
+[![PowerShell Gallery](https://img.shields.io/powershellgallery/v/PoshPalette?logo=powershell&label=PowerShell%20Gallery)](https://www.powershellgallery.com/packages/PoshPalette)
+[![Downloads](https://img.shields.io/powershellgallery/dt/PoshPalette?label=installs)](https://www.powershellgallery.com/packages/PoshPalette)
+[![License](https://img.shields.io/github/license/livlign/posh-palette)](LICENSE)
+
 An interactive theme picker for **PowerShell + Windows Terminal**. Browse a
 gallery of looks, preview them live, and apply one across all **4 layers** at
 once, without leaving your terminal.
 
-> **Naming:** the project/brand is **Posh Palette** (repo: `posh-palette`, kebab-case
-> like `oh-my-posh` / `nerd-fonts`). The PowerShell module and its commands use
-> PascalCase (`PoshPalette`, `Start-PoshPalette`) because command nouns can't
-> contain hyphens. Keep that split when adding docs or commands.
+> **Platform:** the Windows Terminal layer (scheme, background, opacity, font) is
+> Windows-only. The PSReadLine, `$PSStyle`, and oh-my-posh layers run in any
+> PowerShell 7 session, so on macOS/Linux you still get everything except the
+> Windows Terminal–specific bits.
 
 | Layer | What it colors | How it applies |
 |-------|----------------|----------------|
@@ -158,6 +162,7 @@ Each layer is independently contributable: **one JSON file, one PR**.
 - a **preset** goes in `themes/` (a composition tying the above together)
 
 Copy an existing file in the matching folder, change the values, open a PR.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow and naming conventions.
 
 ## Safety
 
@@ -167,16 +172,8 @@ Copy an existing file in the matching folder, change the values, open a PR.
 
 ## Status
 
-Phase 3.
-
-**Done:** composition model + per-layer catalogs (26 bundled themes); 4-layer apply
-engine; one-command-per-layer tweaks (`Set-PoshPaletteScheme` / `Colors` / `Prompt`
-/ `Font`); backups + `Restore-PoshPalette`; Simple-mode picker and Detail-mode
-per-layer composer (incl. opacity / acrylic / font size), both with live preview;
-comment-preserving JSONC writer; palette-aware generated prompts; scheme importer
-(iTerm2 / base16 / Windows Terminal); GitHub catalog fetch; `Test-PoshPaletteSetup`
-doctor; `Install-PoshPaletteFont`; Gallery publish tooling (`publish.ps1` +
-tag-triggered CI); and **published to the PowerShell Gallery** (`Install-Module
-PoshPalette`).
+Stable and **published to the PowerShell Gallery** (`Install-Module PoshPalette`).
+26 bundled themes, the full 4-layer apply engine, live preview, scheme import, and a
+setup doctor all ship today. See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 **Next:** expand the prompt template library; grow the community catalog.
