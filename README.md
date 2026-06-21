@@ -1,5 +1,9 @@
 # Posh Palette
 
+<p align="center">
+  <img src="assets/posh-palette-session.gif" alt="Posh Palette: browsing the theme gallery and applying a look live in the terminal" width="100%">
+</p>
+
 [![PowerShell Gallery](https://img.shields.io/powershellgallery/v/PoshPalette?logo=powershell&label=PowerShell%20Gallery)](https://www.powershellgallery.com/packages/PoshPalette)
 [![Downloads](https://img.shields.io/powershellgallery/dt/PoshPalette?label=installs)](https://www.powershellgallery.com/packages/PoshPalette)
 [![License](https://img.shields.io/github/license/livlign/posh-palette)](LICENSE)
