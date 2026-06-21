@@ -26,7 +26,8 @@ Describe 'Bundled catalog' {
     }
 
     It 'exposes the generated prompt styles, including the new ones' {
-        $ids = (Get-PoshPaletteCatalog -Kind prompts).Id
+        # Get-PoshPaletteCatalog is internal, so reach it inside the module scope.
+        $ids = InModuleScope PoshPalette { (Get-PoshPaletteCatalog -Kind prompts).Id }
         $ids | Should -Contain 'auto-spaceship'
         $ids | Should -Contain 'auto-atomic'
         $ids | Should -Contain 'auto-smoothie'
