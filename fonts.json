@@ -8,5 +8,12 @@
   { "id": "commitmono",  "name": "CommitMono Nerd Font",    "face": "CommitMono Nerd Font",    "nerd": "CommitMono" },
   { "id": "victormono",  "name": "VictorMono Nerd Font",    "face": "VictorMono Nerd Font",    "nerd": "VictorMono" },
   { "id": "iosevka",     "name": "Iosevka Nerd Font",       "face": "Iosevka Nerd Font",       "nerd": "Iosevka" },
-  { "id": "geistmono",   "name": "GeistMono Nerd Font",     "face": "GeistMono Nerd Font",     "nerd": "GeistMono" }
+  { "id": "geistmono",   "name": "GeistMono Nerd Font",     "face": "GeistMono Nerd Font",     "nerd": "GeistMono" },
+  { "id": "martianmono", "name": "MartianMono Nerd Font",   "face": "MartianMono Nerd Font",   "nerd": "MartianMono" },
+  { "id": "zeroxproto",  "name": "0xProto Nerd Font",       "face": "0xProto Nerd Font",       "nerd": "0xProto" },
+  { "id": "atkynson",    "name": "AtkynsonMono Nerd Font",  "face": "AtkynsonMono Nerd Font",  "nerd": "AtkynsonMono" },
+  { "id": "agave",       "name": "Agave Nerd Font",         "face": "Agave Nerd Font",         "nerd": "Agave" },
+  { "id": "bitstromwera","name": "BitstromWera Nerd Font",  "face": "BitstromWera Nerd Font",  "nerd": "BitstreamVeraSansMono" },
+  { "id": "droidsans",   "name": "DroidSansM Nerd Font",    "face": "DroidSansM Nerd Font",    "nerd": "DroidSansMono" },
+  { "id": "gomono",      "name": "GoMono Nerd Font",        "face": "GoMono Nerd Font",        "nerd": "Go-Mono" }
 ]

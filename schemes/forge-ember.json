@@ -1,0 +1,26 @@
+{
+  "id": "forge-ember",
+  "name": "Forge Ember",
+  "colors": {
+    "background": "#1A1410",
+    "foreground": "#F0DFC8",
+    "cursorColor": "#FF8A3D",
+    "selectionBackground": "#3A2A1A",
+    "black": "#2A2018",
+    "red": "#FF5A47",
+    "green": "#C8C84F",
+    "yellow": "#FFB347",
+    "blue": "#E89C4F",
+    "purple": "#FF7A5C",
+    "cyan": "#FFCB6B",
+    "white": "#E8D6C0",
+    "brightBlack": "#7A6450",
+    "brightRed": "#FF5A47",
+    "brightGreen": "#C8C84F",
+    "brightYellow": "#FF8A3D",
+    "brightBlue": "#E89C4F",
+    "brightPurple": "#FF7A5C",
+    "brightCyan": "#FFCB6B",
+    "brightWhite": "#F0DFC8"
+  }
+}

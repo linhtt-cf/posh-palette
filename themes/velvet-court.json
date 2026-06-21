@@ -1,0 +1,13 @@
+{
+  "id": "velvet-court",
+  "name": "Velvet Court",
+  "description": "Deep burgundy and royal purple finished with gold.",
+  "scheme": "velvet-court",
+  "palette": "velvet-court",
+  "prompt": "auto-smoothie",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 6
+}

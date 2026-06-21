@@ -1,0 +1,21 @@
+{
+  "id": "forge-ember",
+  "name": "Forge Ember",
+  "psReadLine": {
+    "Command": "#E89C4F",
+    "Parameter": "#FFCB6B",
+    "String": "#C8C84F",
+    "Operator": "#FF7A5C",
+    "Variable": "#FFB347",
+    "Number": "#FF8A3D",
+    "Comment": "#7A6450",
+    "Error": "#FF5A47",
+    "Default": "#F0DFC8",
+    "InlinePrediction": "#7A6450"
+  },
+  "psStyle": {
+    "Directory": "#E89C4F",
+    "Error": "#FF5A47",
+    "TableHeader": "#FF7A5C"
+  }
+}

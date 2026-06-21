@@ -1,0 +1,26 @@
+{
+  "id": "matcha-zen",
+  "name": "Matcha Zen",
+  "colors": {
+    "background": "#F4F6EC",
+    "foreground": "#3A4A32",
+    "cursorColor": "#5C8A3A",
+    "selectionBackground": "#DCE6CC",
+    "black": "#3A4632",
+    "red": "#C7522A",
+    "green": "#4F7A2A",
+    "yellow": "#9A7400",
+    "blue": "#3F7F7C",
+    "purple": "#7A5FA0",
+    "cyan": "#2F8A8A",
+    "white": "#5A6A4E",
+    "brightBlack": "#9AA88E",
+    "brightRed": "#C7522A",
+    "brightGreen": "#4F7A2A",
+    "brightYellow": "#A0601A",
+    "brightBlue": "#3F7F7C",
+    "brightPurple": "#7A5FA0",
+    "brightCyan": "#2F8A8A",
+    "brightWhite": "#3A4A32"
+  }
+}

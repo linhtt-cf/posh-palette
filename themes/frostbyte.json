@@ -1,0 +1,13 @@
+{
+  "id": "frostbyte",
+  "name": "Frostbyte",
+  "description": "Icy blue-white with cold steel accents. A light winter theme.",
+  "scheme": "frostbyte",
+  "palette": "frostbyte",
+  "prompt": "auto-arrow",
+  "font": "hack",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 8
+}

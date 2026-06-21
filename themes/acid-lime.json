@@ -1,0 +1,13 @@
+{
+  "id": "acid-lime",
+  "name": "Acid Lime",
+  "description": "Pitch black charged with acid lime and electric green.",
+  "scheme": "acid-lime",
+  "palette": "acid-lime",
+  "prompt": "auto-robby",
+  "font": "cascadia",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 7
+}

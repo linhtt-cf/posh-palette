@@ -118,9 +118,12 @@ Install-PoshPaletteFont CascadiaCode   # or a raw Nerd Font name
 
 ## Bundled themes
 
-**26 themes**, from muted dev classics to neon and retro CRT. Browse them all in
+**35 themes**, from muted dev classics to neon and retro CRT. Browse them all in
 the [theme gallery](https://livlign.github.io/posh-palette/themes.html).
 
+- **Originals (featured):** `nebula-drift`, `deep-current`, `miami-heat`, `forge-ember`,
+  `matcha-zen`, `velvet-court`, `acid-lime`, `frostbyte`, `golden-hour` — nine
+  originals showcasing the widest spread of color, font, and prompt shape
 - **Vivid / neon:** `synthwave`, `cyberpunk`, `oxocarbon`, `monokai-pro`
 - **Dark classics:** `tokyo-night`, `dracula`, `catppuccin-mocha`, `nord`, `one-dark`,
   `gruvbox`, `rose-pine`, `kanagawa`, `everforest`, `solarized-dark`, `github-dark`
@@ -151,7 +154,8 @@ layer commands all share one path.
 > so the prompt always matches your colors and always loads (no external oh-my-posh
 > theme files needed). Pick a style: **`auto`** (classic), **`auto-minimal`**,
 > **`auto-powerline`**, **`auto-robby`** (`❯❯ folder git:(branch) time`),
-> **`auto-twoline`**, **`auto-arrow`**, **`auto-lambda`**, or **`auto-pure`**.
+> **`auto-twoline`**, **`auto-arrow`**, **`auto-lambda`**, **`auto-pure`**,
+> **`auto-spaceship`**, **`auto-atomic`**, or **`auto-smoothie`**.
 > Prefer a specific oh-my-posh community theme? Pass its name to
 > `Set-PoshPalettePrompt` (or type it in Detail mode) and it'll be used if you have
 > it installed under `POSH_THEMES_PATH`.
@@ -177,7 +181,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow and naming conventi
 ## Status
 
 Stable and **published to the PowerShell Gallery** (`Install-Module PoshPalette`).
-26 bundled themes, the full 4-layer apply engine, live preview, scheme import, and a
+35 bundled themes, the full 4-layer apply engine, live preview, scheme import, and a
 setup doctor all ship today. See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 **Next:** expand the prompt template library; grow the community catalog.

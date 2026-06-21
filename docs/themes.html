@@ -9,6 +9,15 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@5/400.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@5/500.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto-mono@5/700.css">
+<!-- per-theme preview faces: each card renders in its real font -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/fira-code@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/hack@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/victor-mono@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/iosevka@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/martian-mono@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/0xproto@5/400.css">
 <style>
   :root{
     --bg:#0B0B12; --surface:#13131C; --raised:#1B1B27; --ink:#ECECF3; --ink-dim:#A7A7B8;
@@ -72,15 +81,15 @@
   .card:hover{transform:translateY(-4px);border-color:var(--hair-strong);
     box-shadow:0 22px 50px -26px rgba(0,0,0,.8)}
 
-  .card-head{display:flex;align-items:baseline;gap:9px;padding:15px 16px 12px}
-  .card-head h3{font-size:15.5px;margin:0;letter-spacing:-.01em}
+  .card-head{display:flex;align-items:baseline;gap:9px;padding:15px 16px 12px;flex-wrap:wrap}
+  .card-head h3{font-size:15.5px;margin:0;letter-spacing:-.01em;white-space:nowrap}
   .card-head .var{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:11px;color:var(--ink-faint);
     text-transform:uppercase;letter-spacing:.08em}
-  .pill{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:10px;
-    letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);border:1px solid var(--hair);
-    border-radius:999px;padding:3px 9px}
-  .card-head .pill:first-of-type{margin-left:auto}
-  .pill.font{color:var(--ink-dim)}
+  .card-head .pills{margin-left:auto;display:flex;align-items:center;gap:6px;flex:none}
+  .pill{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:9.5px;
+    letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);border:1px solid var(--hair);
+    border-radius:999px;padding:2px 8px;white-space:nowrap}
+  .pill.font{color:var(--ink-dim);border-color:var(--hair-strong)}
 
   /* self-themed terminal preview (vars set inline per card) */
   .term{background:var(--c-bg);color:var(--c-fg);font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;
@@ -95,6 +104,9 @@
   .term .pl{display:inline-flex;align-items:stretch;height:18px;vertical-align:-4px}
   .term .pl .seg{display:inline-flex;align-items:center;padding:0 8px;font-weight:600}
   .term .pl .sep{width:0;height:18px;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:8px solid}
+  /* smoothie: soft rounded pills instead of powerline wedges */
+  .term .pl.smooth{gap:5px}
+  .term .pl.smooth .seg{border-radius:999px;padding:0 10px}
   .term .glass{position:relative}
   .cardcmd{display:flex;align-items:center;gap:8px;padding:11px 12px 11px 14px;margin-top:auto;
     border-top:1px solid var(--hair);background:var(--surface);
@@ -165,6 +177,24 @@
 
 <script>
   const THEMES = {
+    "nebula-drift":{name:"Nebula Drift",variant:"Cosmos",dark:true,desc:"Deep-space indigo with violet, magenta and starlight cyan.",
+      "--c-bg":"#0B0B1E","--c-fg":"#D6D6F5","--c-cur":"#C792EA","--c-cmd":"#8AB4FF","--c-param":"#5EE8E8","--c-str":"#6EE7B7","--c-op":"#C792EA","--c-var":"#FFD479","--c-num":"#FFB86C","--c-com":"#5A5A86","--c-err":"#FF6B9D","--c-dir":"#8AB4FF","--c-accent":"#C792EA","--c-glow":"rgba(199,146,234,.4)"},
+    "deep-current":{name:"Deep Current",variant:"Abyss",dark:true,desc:"Near-black teal lit by bioluminescent cyan and green.",
+      "--c-bg":"#04161A","--c-fg":"#BFE9E4","--c-cur":"#2EE6C8","--c-cmd":"#4FC3E8","--c-param":"#2EE6C8","--c-str":"#3FE0B0","--c-op":"#9AA8FF","--c-var":"#E8D27A","--c-num":"#F2A65A","--c-com":"#3E6B6B","--c-err":"#FF7A7A","--c-dir":"#4FC3E8","--c-accent":"#2EE6C8","--c-glow":"rgba(46,230,200,.4)"},
+    "miami-heat":{name:"Miami Heat",variant:"Vice",dark:true,desc:"Vaporwave neon magenta and cyan over deep violet.",
+      "--c-bg":"#1A0B2E","--c-fg":"#F2E6FF","--c-cur":"#FF4FD8","--c-cmd":"#59B0FF","--c-param":"#4DD9FF","--c-str":"#4DE0C0","--c-op":"#C77DFF","--c-var":"#FFD93D","--c-num":"#FF9E4F","--c-com":"#6E5A8E","--c-err":"#FF5C8A","--c-dir":"#59B0FF","--c-accent":"#FF4FD8","--c-glow":"rgba(255,79,216,.4)"},
+    "forge-ember":{name:"Forge Ember",variant:"Molten",dark:true,desc:"Charcoal struck through with molten orange, red and amber.",
+      "--c-bg":"#1A1410","--c-fg":"#F0DFC8","--c-cur":"#FF8A3D","--c-cmd":"#E89C4F","--c-param":"#FFCB6B","--c-str":"#C8C84F","--c-op":"#FF7A5C","--c-var":"#FFB347","--c-num":"#FF8A3D","--c-com":"#7A6450","--c-err":"#FF5A47","--c-dir":"#E89C4F","--c-accent":"#FF8A3D","--c-glow":"rgba(255,138,61,.4)"},
+    "matcha-zen":{name:"Matcha Zen",variant:"Garden",dark:false,desc:"Soft green on warm paper. Calm, light, legible.",
+      "--c-bg":"#F4F6EC","--c-fg":"#3A4A32","--c-cur":"#5C8A3A","--c-cmd":"#3F7F7C","--c-param":"#2F8A8A","--c-str":"#4F7A2A","--c-op":"#7A5FA0","--c-var":"#9A7400","--c-num":"#A0601A","--c-com":"#9AA88E","--c-err":"#C7522A","--c-dir":"#3F7F7C","--c-accent":"#4F7A2A","--c-glow":"rgba(79,122,42,.4)"},
+    "velvet-court":{name:"Velvet Court",variant:"Regalia",dark:true,desc:"Deep burgundy and royal purple finished with gold.",
+      "--c-bg":"#1C0F1A","--c-fg":"#EFD9E6","--c-cur":"#E0B84F","--c-cmd":"#A98AE0","--c-param":"#6FD0C8","--c-str":"#9AD08A","--c-op":"#C77DD9","--c-var":"#E0B84F","--c-num":"#E0934F","--c-com":"#7A5A70","--c-err":"#E5577B","--c-dir":"#A98AE0","--c-accent":"#E0B84F","--c-glow":"rgba(224,184,79,.4)"},
+    "acid-lime":{name:"Acid Lime",variant:"Toxic",dark:true,desc:"Pitch black charged with acid lime and electric green.",
+      "--c-bg":"#0C1108","--c-fg":"#CFEAB8","--c-cur":"#B6FF3C","--c-cmd":"#5CE89C","--c-param":"#5CFFB0","--c-str":"#8FE03C","--c-op":"#9CFF7A","--c-var":"#E8FF6B","--c-num":"#D4FF4F","--c-com":"#4E6B3A","--c-err":"#FF5C5C","--c-dir":"#5CE89C","--c-accent":"#B6FF3C","--c-glow":"rgba(182,255,60,.4)"},
+    "frostbyte":{name:"Frostbyte",variant:"Glacier",dark:false,desc:"Icy blue-white with cold steel accents. A light winter theme.",
+      "--c-bg":"#EEF4FA","--c-fg":"#2E3D4F","--c-cur":"#2E7FD0","--c-cmd":"#2E7FD0","--c-param":"#2585A5","--c-str":"#2F7A5A","--c-op":"#6A6FD0","--c-var":"#9A6A10","--c-num":"#A0601A","--c-com":"#93A4B5","--c-err":"#C7445A","--c-dir":"#2E7FD0","--c-accent":"#2E7FD0","--c-glow":"rgba(46,127,208,.4)"},
+    "golden-hour":{name:"Golden Hour",variant:"Dusk",dark:true,desc:"Warm dusk gradient: peach, coral and violet at sundown.",
+      "--c-bg":"#211926","--c-fg":"#F5E0D5","--c-cur":"#FF9E7A","--c-cmd":"#C99AE0","--c-param":"#7AD0C8","--c-str":"#E0C97A","--c-op":"#E08ABF","--c-var":"#FFC15E","--c-num":"#FF9E7A","--c-com":"#7E6478","--c-err":"#FF6F61","--c-dir":"#C99AE0","--c-accent":"#FF9E7A","--c-glow":"rgba(255,158,122,.4)"},
     "tokyo-night":{name:"Tokyo Night",variant:"Storm",dark:true,desc:"Clean dark blue, inspired by Tokyo at night.",
       "--c-bg":"#1A1B26","--c-fg":"#C0CAF5","--c-cur":"#C0CAF5","--c-cmd":"#7AA2F7","--c-param":"#7DCFFF",
       "--c-str":"#9ECE6A","--c-op":"#BB9AF7","--c-var":"#E0AF68","--c-num":"#FF9E64","--c-com":"#565F89",
@@ -274,7 +304,9 @@
   // Curated catalog order — the first 9 are chosen to show the widest range
   // (background, color, prompt shape, font) on first scroll. Mirrors the
   // 'order' field in themes/*.json so the tool and this page agree.
-  const ORDER = ["tokyo-night","synthwave","catppuccin-latte","gruvbox","green-phosphor",
+  const ORDER = ["nebula-drift","deep-current","miami-heat","forge-ember","matcha-zen",
+    "velvet-court","acid-lime","frostbyte","golden-hour",
+    "tokyo-night","synthwave","catppuccin-latte","gruvbox","green-phosphor",
     "solarized-dark","dracula","high-contrast","rose-pine",
     "nord","monokai-pro","one-dark","cyberpunk","catppuccin-mocha","github-dark",
     "everforest","kanagawa","horizon","ayu-dark","night-owl","oxocarbon",
@@ -285,6 +317,9 @@
 
   // Each theme showcases a different oh-my-posh prompt SHAPE, not just colors.
   const PROMPT = {
+    "nebula-drift":"spaceship", "deep-current":"twoline", "miami-heat":"atomic",
+    "forge-ember":"powerline", "matcha-zen":"lambda", "velvet-court":"smoothie",
+    "acid-lime":"robby", "frostbyte":"arrow", "golden-hour":"pure",
     synthwave:"robby",
     dracula:"powerline", nord:"powerline", "monokai-pro":"powerline",
     "github-dark":"powerline", oxocarbon:"powerline", "tokyo-night":"powerline",
@@ -298,28 +333,38 @@
   // All bundled themes ship fully opaque (opacity 100), so no glass sheen.
   const ACRYLIC = new Set();
   const STYLE_LABEL = { powerline:"powerline", robby:"chevron", pure:"minimal", lambda:"lambda",
-    twoline:"two-line", arrow:"arrow" };
-  // Each theme also applies a font (a real differentiator the tool sets). The
-  // preview renders in that face when the visitor has it installed, else falls
-  // back to the page mono; the label communicates it either way.
-  const FONT = {
-    "tokyo-night":["jetbrains","JetBrainsMono Nerd Font"], "synthwave":["victormono","VictorMono Nerd Font"],
-    "catppuccin-latte":["geistmono","GeistMono Nerd Font"], "gruvbox":["firacode","FiraCode Nerd Font"],
-    "green-phosphor":["iosevka","Iosevka Nerd Font"], "solarized-dark":["hack","Hack Nerd Font"],
-    "dracula":["cascadia","CaskaydiaCove Nerd Font"], "high-contrast":["meslo","MesloLGS NF"],
-    "rose-pine":["commitmono","CommitMono Nerd Font"], "nord":["robotomono","RobotoMono Nerd Font"],
-    "monokai-pro":["jetbrains","JetBrainsMono Nerd Font"], "one-dark":["firacode","FiraCode Nerd Font"],
-    "cyberpunk":["victormono","VictorMono Nerd Font"], "catppuccin-mocha":["geistmono","GeistMono Nerd Font"],
-    "github-dark":["cascadia","CaskaydiaCove Nerd Font"], "everforest":["iosevka","Iosevka Nerd Font"],
-    "kanagawa":["meslo","MesloLGS NF"], "horizon":["commitmono","CommitMono Nerd Font"],
-    "ayu-dark":["hack","Hack Nerd Font"], "night-owl":["jetbrains","JetBrainsMono Nerd Font"],
-    "oxocarbon":["geistmono","GeistMono Nerd Font"], "github-light":["cascadia","CaskaydiaCove Nerd Font"],
-    "solarized-light":["hack","Hack Nerd Font"], "rose-pine-dawn":["commitmono","CommitMono Nerd Font"],
-    "amber-crt":["iosevka","Iosevka Nerd Font"], "campbell":["robotomono","RobotoMono Nerd Font"]
+    twoline:"two-line", arrow:"arrow", spaceship:"spaceship", atomic:"atomic", smoothie:"smoothie" };
+  // Each theme also applies a font — a real differentiator the tool sets. The card
+  // preview renders in that typeface (loaded as a web font, or the installed Nerd
+  // Font if the visitor has it). FONTS: id -> [nerdFace, webFamily, label].
+  const FONTS = {
+    robotomono:["RobotoMono Nerd Font","Roboto Mono","Roboto Mono"],
+    jetbrains:["JetBrainsMono Nerd Font","JetBrains Mono","JetBrains"],
+    cascadia:["CaskaydiaCove Nerd Font","Cascadia Code","Cascadia"],
+    firacode:["FiraCode Nerd Font","Fira Code","Fira Code"],
+    hack:["Hack Nerd Font","Hack","Hack"],
+    meslo:["MesloLGS NF","Roboto Mono","Meslo"],
+    commitmono:["CommitMono Nerd Font","Roboto Mono","Commit Mono"],
+    victormono:["VictorMono Nerd Font","Victor Mono","Victor Mono"],
+    iosevka:["Iosevka Nerd Font","Iosevka","Iosevka"],
+    geistmono:["GeistMono Nerd Font","Geist Mono","Geist"],
+    martianmono:["MartianMono Nerd Font","Martian Mono","Martian Mono"],
+    zeroxproto:["0xProto Nerd Font","0xProto","0xProto"]
   };
-  const FONT_LABEL = { jetbrains:"JetBrains", victormono:"Victor Mono", geistmono:"Geist",
-    firacode:"Fira Code", iosevka:"Iosevka", hack:"Hack", cascadia:"Cascadia", meslo:"Meslo",
-    commitmono:"Commit Mono", robotomono:"Roboto Mono" };
+  const FONT = {
+    "nebula-drift":"martianmono", "deep-current":"zeroxproto", "miami-heat":"victormono",
+    "forge-ember":"firacode", "matcha-zen":"geistmono", "velvet-court":"jetbrains",
+    "acid-lime":"cascadia", "frostbyte":"hack", "golden-hour":"robotomono",
+    "tokyo-night":"jetbrains", "synthwave":"victormono", "catppuccin-latte":"geistmono",
+    "gruvbox":"firacode", "green-phosphor":"iosevka", "solarized-dark":"hack",
+    "dracula":"cascadia", "high-contrast":"meslo", "rose-pine":"commitmono",
+    "nord":"robotomono", "monokai-pro":"jetbrains", "one-dark":"firacode",
+    "cyberpunk":"victormono", "catppuccin-mocha":"geistmono", "github-dark":"cascadia",
+    "everforest":"iosevka", "kanagawa":"meslo", "horizon":"commitmono",
+    "ayu-dark":"hack", "night-owl":"jetbrains", "oxocarbon":"geistmono",
+    "github-light":"cascadia", "solarized-light":"hack", "rose-pine-dawn":"commitmono",
+    "amber-crt":"iosevka", "campbell":"robotomono"
+  };
 
   function cardVars(t){ return ["--c-bg","--c-fg","--c-cur","--c-cmd","--c-param","--c-str","--c-op",
     "--c-var","--c-num","--c-com","--c-err","--c-dir","--c-accent","--c-glow"]
@@ -352,29 +397,46 @@
         return `<div class="ln prompt"><span class="cmd">~/proj</span></div><div class="ln prompt"><span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
       case "twoline":
         return `<div class="ln prompt"><span class="com">╭─</span> <span class="cmd">proj</span> <span class="str">● main</span> <span class="var">12:27</span></div><div class="ln prompt"><span class="com">╰─</span><span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
+      case "spaceship":
+        return `<div class="ln prompt"><span class="cmd">~/proj</span> <span class="com">on</span> <span class="op">⎇ main</span> <span class="var">12:27</span> <span style="color:${c("--c-str")}">➜</span>${cmd}</div>`;
+      case "atomic": {
+        const segs = [["--c-cmd","~/proj"],["--c-str","main"]];
+        let h = `<span style="color:${c("--c-accent")}">⚡</span> <span class="pl">`;
+        segs.forEach((s,i)=>{
+          h += `<span class="seg" style="background:${c(s[0])};color:${dim}">${s[1]}</span>`;
+          const next = i<segs.length-1 ? c(segs[i+1][0]) : c("--c-bg");
+          h += `<span class="sep" style="border-left-color:${c(s[0])};background:${next}"></span>`;
+        });
+        h += "</span>";
+        return `<div class="ln prompt">${h}${cmd}</div>`;
+      }
+      case "smoothie": {
+        const segs = [["--c-op","~/proj"],["--c-param","main"]];
+        let h = '<span class="pl smooth">';
+        segs.forEach(s=>{ h += `<span class="seg" style="background:${c(s[0])};color:${dim}">${s[1]}</span>`; });
+        h += `</span> <span style="color:${c("--c-accent")}">❯</span>`;
+        return `<div class="ln prompt">${h}${cmd}</div>`;
+      }
     }
   }
 
   function buildCard(id){
     const t = THEMES[id];
     const style = PROMPT[id] || "robby";
-    const glass = ACRYLIC.has(id);
-    const font = FONT[id];
+    const font = FONTS[FONT[id]];   // [nerdFace, webFamily, label]
     const cmd = `Install-PoshPaletteTheme '${id}'`;
     const el = document.createElement("article");
     el.className = "card";
     el.style.cssText = cardVars(t);
-    const bg = glass
-      ? `background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,0) 45%), var(--c-bg)`
-      : "";
-    const termFont = font ? `font-family:"${font[1]}","Roboto Mono","Cascadia Code",Consolas,monospace;` : "";
+    // Render the preview in the theme's real face: installed Nerd Font wins,
+    // else the loaded web font, else the page mono.
+    const termFont = font ? `font-family:"${font[0]}","${font[1]}","Roboto Mono",Consolas,monospace;` : "";
     el.innerHTML = `
       <div class="card-head">
         <h3>${t.name}</h3><span class="var">${t.variant}</span>
-        ${font ? `<span class="pill font">${FONT_LABEL[font[0]]}</span>` : ""}
-        <span class="pill">${STYLE_LABEL[style]}</span>
+        <span class="pills">${font ? `<span class="pill font">${font[2]}</span>` : ""}<span class="pill">${STYLE_LABEL[style]}</span></span>
       </div>
-      <div class="term" style="${bg}${termFont}">
+      <div class="term" style="${termFont}">
         ${renderPrompt(t, style, true)}
         <div class="ln"><span class="op">Mode   LastWriteTime   Name</span></div>
         <div class="ln"><span class="com">----   -------------   ----</span></div>

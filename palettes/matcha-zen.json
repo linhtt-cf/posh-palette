@@ -1,0 +1,21 @@
+{
+  "id": "matcha-zen",
+  "name": "Matcha Zen",
+  "psReadLine": {
+    "Command": "#3F7F7C",
+    "Parameter": "#2F8A8A",
+    "String": "#4F7A2A",
+    "Operator": "#7A5FA0",
+    "Variable": "#9A7400",
+    "Number": "#A0601A",
+    "Comment": "#9AA88E",
+    "Error": "#C7522A",
+    "Default": "#3A4A32",
+    "InlinePrediction": "#9AA88E"
+  },
+  "psStyle": {
+    "Directory": "#3F7F7C",
+    "Error": "#C7522A",
+    "TableHeader": "#7A5FA0"
+  }
+}

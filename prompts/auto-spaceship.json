@@ -1,0 +1,7 @@
+{
+  "id": "auto-spaceship",
+  "name": "Auto · Spaceship",
+  "generate": true,
+  "style": "spaceship",
+  "note": "Palette-aware spaceship-style line: path on branch time ➜. Uses a Nerd Font glyph for the branch."
+}

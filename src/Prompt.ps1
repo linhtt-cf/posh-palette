@@ -13,7 +13,7 @@
 function New-PoshPaletteOmpConfig {
     param(
         [Parameter(Mandatory)] $Colors,
-        [ValidateSet('classic','minimal','powerline','robby','twoline','arrow','lambda','pure')] [string] $Style = 'classic'
+        [ValidateSet('classic','minimal','powerline','robby','twoline','arrow','lambda','pure','spaceship','atomic','smoothie')] [string] $Style = 'classic'
     )
 
     $get = {
@@ -82,6 +82,33 @@ function New-PoshPaletteOmpConfig {
                 (& $textSeg $purple 'λ ')
                 (& $pathSeg $blue '{{ .Path }} ')
                 (& $textSeg $green '→ ')
+            )
+        }
+        'spaceship' {
+            # spaceship-prompt inspired: path · "on" · branch · time · ➜
+            & $line @(
+                (& $pathSeg $blue '{{ .Path }} ')
+                (& $textSeg $cyan 'on ')
+                (& $gitSeg  $purple "$([char]0x2387) {{ .HEAD }} ")
+                (& $timeSeg $yellow)
+                (& $statSeg $green "$([char]0x279C) ")
+            )
+        }
+        'atomic' {
+            # a leading bolt, then filled powerline segments
+            & $line @(
+                (& $textSeg $purple "$([char]0x26A1) ")
+                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $blue; properties = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
+                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $green; background_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$red{{ end }}"); properties = [ordered]@{ fetch_status = $true }; template = " $([char]0xE0A0) {{ .HEAD }} " }
+                (& $statSeg $purple "$([char]0x276F) ")
+            )
+        }
+        'smoothie' {
+            # soft rounded powerline segments (rounded cap separator)
+            & $line @(
+                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = "$([char]0xE0B4)"; foreground = $bg; background = $purple; properties = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
+                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B4)"; foreground = $bg; background = $cyan; background_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$yellow{{ end }}"); properties = [ordered]@{ fetch_status = $true }; template = " {{ .HEAD }} " }
+                (& $statSeg $purple "$([char]0x276F) ")
             )
         }
         'pure' {

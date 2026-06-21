@@ -1,0 +1,7 @@
+{
+  "id": "auto-smoothie",
+  "name": "Auto · Smoothie",
+  "generate": true,
+  "style": "smoothie",
+  "note": "Palette-aware smoothie-style: soft rounded powerline segments. Needs a Nerd Font for the rounded caps."
+}

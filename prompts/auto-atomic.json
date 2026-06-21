@@ -1,0 +1,7 @@
+{
+  "id": "auto-atomic",
+  "name": "Auto · Atomic",
+  "generate": true,
+  "style": "atomic",
+  "note": "Palette-aware atomic-style: a leading ⚡ then filled powerline segments. Needs a Nerd Font for the separators."
+}

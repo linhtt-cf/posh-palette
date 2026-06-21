@@ -1,0 +1,21 @@
+{
+  "id": "acid-lime",
+  "name": "Acid Lime",
+  "psReadLine": {
+    "Command": "#5CE89C",
+    "Parameter": "#5CFFB0",
+    "String": "#8FE03C",
+    "Operator": "#9CFF7A",
+    "Variable": "#E8FF6B",
+    "Number": "#D4FF4F",
+    "Comment": "#4E6B3A",
+    "Error": "#FF5C5C",
+    "Default": "#CFEAB8",
+    "InlinePrediction": "#4E6B3A"
+  },
+  "psStyle": {
+    "Directory": "#5CE89C",
+    "Error": "#FF5C5C",
+    "TableHeader": "#9CFF7A"
+  }
+}

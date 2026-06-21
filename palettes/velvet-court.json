@@ -1,0 +1,21 @@
+{
+  "id": "velvet-court",
+  "name": "Velvet Court",
+  "psReadLine": {
+    "Command": "#A98AE0",
+    "Parameter": "#6FD0C8",
+    "String": "#9AD08A",
+    "Operator": "#C77DD9",
+    "Variable": "#E0B84F",
+    "Number": "#E0934F",
+    "Comment": "#7A5A70",
+    "Error": "#E5577B",
+    "Default": "#EFD9E6",
+    "InlinePrediction": "#7A5A70"
+  },
+  "psStyle": {
+    "Directory": "#A98AE0",
+    "Error": "#E5577B",
+    "TableHeader": "#C77DD9"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "miami-heat",
+  "name": "Miami Heat",
+  "description": "Vaporwave neon magenta and cyan over deep violet.",
+  "scheme": "miami-heat",
+  "palette": "miami-heat",
+  "prompt": "auto-atomic",
+  "font": "victormono",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 3
+}

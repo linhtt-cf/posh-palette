@@ -1,0 +1,13 @@
+{
+  "id": "forge-ember",
+  "name": "Forge Ember",
+  "description": "Charcoal struck through with molten orange, red and amber.",
+  "scheme": "forge-ember",
+  "palette": "forge-ember",
+  "prompt": "auto-powerline",
+  "font": "firacode",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 4
+}

@@ -1,0 +1,26 @@
+{
+  "id": "acid-lime",
+  "name": "Acid Lime",
+  "colors": {
+    "background": "#0C1108",
+    "foreground": "#CFEAB8",
+    "cursorColor": "#B6FF3C",
+    "selectionBackground": "#1E2E12",
+    "black": "#16200E",
+    "red": "#FF5C5C",
+    "green": "#8FE03C",
+    "yellow": "#E8FF6B",
+    "blue": "#5CE89C",
+    "purple": "#9CFF7A",
+    "cyan": "#5CFFB0",
+    "white": "#BCE0A0",
+    "brightBlack": "#4E6B3A",
+    "brightRed": "#FF5C5C",
+    "brightGreen": "#8FE03C",
+    "brightYellow": "#D4FF4F",
+    "brightBlue": "#5CE89C",
+    "brightPurple": "#9CFF7A",
+    "brightCyan": "#5CFFB0",
+    "brightWhite": "#CFEAB8"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "matcha-zen",
+  "name": "Matcha Zen",
+  "description": "Soft green on warm paper. Calm, light, legible.",
+  "scheme": "matcha-zen",
+  "palette": "matcha-zen",
+  "prompt": "auto-lambda",
+  "font": "geistmono",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 5
+}

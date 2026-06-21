@@ -1,0 +1,13 @@
+{
+  "id": "deep-current",
+  "name": "Deep Current",
+  "description": "Near-black teal lit by bioluminescent cyan and green.",
+  "scheme": "deep-current",
+  "palette": "deep-current",
+  "prompt": "auto-twoline",
+  "font": "zeroxproto",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 2
+}

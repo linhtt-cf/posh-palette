@@ -1,0 +1,26 @@
+{
+  "id": "nebula-drift",
+  "name": "Nebula Drift",
+  "colors": {
+    "background": "#0B0B1E",
+    "foreground": "#D6D6F5",
+    "cursorColor": "#C792EA",
+    "selectionBackground": "#26264A",
+    "black": "#1B1B36",
+    "red": "#FF6B9D",
+    "green": "#6EE7B7",
+    "yellow": "#FFD479",
+    "blue": "#8AB4FF",
+    "purple": "#C792EA",
+    "cyan": "#5EE8E8",
+    "white": "#C8C8E8",
+    "brightBlack": "#5A5A86",
+    "brightRed": "#FF6B9D",
+    "brightGreen": "#6EE7B7",
+    "brightYellow": "#FFB86C",
+    "brightBlue": "#8AB4FF",
+    "brightPurple": "#C792EA",
+    "brightCyan": "#5EE8E8",
+    "brightWhite": "#D6D6F5"
+  }
+}
