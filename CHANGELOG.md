@@ -3,6 +3,40 @@
 All notable changes to PoshPalette are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.5.0]
+
+### Added
+- **Nine new original themes**, featured first in the catalog (now **35**):
+  `nebula-drift`, `deep-current`, `miami-heat`, `forge-ember`, `matcha-zen`,
+  `velvet-court`, `acid-lime`, `frostbyte`, `golden-hour` — each a distinct
+  combination of color, font, and prompt shape.
+- **Search + filter in Simple mode.** Type to live-filter themes by name, and
+  press Tab to cycle All / Dark / Light (dark or light is detected from the
+  scheme's background luminance).
+- **Auto-updating community catalog.** On launch, `palette` pulls any new themes
+  published to the GitHub catalog — and the scheme/palette/prompt files they
+  reference — into `~/.poshpalette/catalog/`, so new themes arrive without
+  reinstalling. Throttled to once a day, time-boxed, and best-effort (offline or
+  slow never blocks). `palette -Refresh` forces a check; `Update-PoshPaletteCatalog`
+  is exposed; `$env:POSHPALETTE_NO_AUTOUPDATE` opts out.
+- **In-app update prompt.** On the same daily cadence, the menu shows a
+  `[5] Update` item when a newer module version is on the PowerShell Gallery;
+  selecting it runs `Update-Module PoshPalette`.
+- **Three new generated prompt styles:** `auto-spaceship`, `auto-atomic`, and
+  `auto-smoothie` (scheme-matched like the rest).
+- **Per-theme fonts.** Themes now span the font catalog instead of all using one
+  face, and the catalog gained IBM Plex, Space Mono, Source Code Pro, Monaspace,
+  Martian Mono, and more.
+
+### Changed
+- **Curated catalog order** shared by the tool and the web gallery (via an
+  `order` field), with the most varied themes first.
+- All bundled themes now ship fully opaque (opacity 100, acrylic off).
+
+### Tooling
+- Pester test suite + GitHub Actions CI (Windows + Linux) covering the resolver,
+  prompt generation, and the catalog/version auto-refresh.
+
 ## [0.4.2]
 
 ### Fixed
