@@ -104,6 +104,7 @@
   .term .cur{display:inline-block;width:7px;height:14px;background:var(--c-cur);vertical-align:-2px;margin-left:1px}
   /* prompt styles */
   .term .prompt{display:block;margin-bottom:2px}
+  .term .prompt.plline{display:flex;align-items:center}
   .term .pl{display:inline-flex;align-items:stretch;height:18px;vertical-align:-4px}
   .term .pl .seg{display:inline-flex;align-items:center;padding:0 8px;font-weight:600}
   .term .pl .sep{width:0;height:18px;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:8px solid}
@@ -390,7 +391,7 @@
           h += `<span class="sep" style="border-left-color:${c(s[0])};background:${next}"></span>`;
         });
         h += "</span>";
-        return `<div class="ln prompt">${h}${cmd}</div>`;
+        return `<div class="ln prompt plline">${h}${cmd}</div>`;
       }
       case "robby":
         return `<div class="ln prompt"><span class="param">❯❯</span> <span class="cmd">${D}</span> <span class="com">git:(</span><span class="str">main</span><span class="com">)</span> <span class="var">12:27</span>${cmd}</div>`;
@@ -413,14 +414,14 @@
           h += `<span class="sep" style="border-left-color:${c(s[0])};background:${next}"></span>`;
         });
         h += "</span>";
-        return `<div class="ln prompt">${h}${cmd}</div>`;
+        return `<div class="ln prompt plline">${h}${cmd}</div>`;
       }
       case "smoothie": {
         const segs = [["--c-op",P],["--c-param","main"]];
         let h = '<span class="pl smooth">';
         segs.forEach(s=>{ h += `<span class="seg" style="background:${c(s[0])};color:${dim}">${s[1]}</span>`; });
         h += `</span> <span style="color:${c("--c-accent")}">❯</span>`;
-        return `<div class="ln prompt">${h}${cmd}</div>`;
+        return `<div class="ln prompt plline">${h}${cmd}</div>`;
       }
     }
   }
