@@ -457,7 +457,7 @@
     const t = THEMES[id];
     const style = PROMPT[id] || "robby";
     const font = FONTS[FONT[id]];   // [nerdFace, webFamily, label]
-    const cmd = `Install-PoshPaletteTheme '${id}'`;
+    const cmd = `Install-PoshPaletteTheme ${id}`;
     const el = document.createElement("article");
     el.className = "card";
     el.style.cssText = cardVars(t);
