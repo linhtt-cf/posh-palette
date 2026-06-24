@@ -7,14 +7,20 @@
 
 # Is a font family installed? Reliable only on Windows (font registry); elsewhere
 # we can't tell cheaply, so assume yes and let the apply proceed.
+#
+# Registry keys are named after the font *file* title, which for Nerd Fonts drops
+# the spaces in the family name (e.g. face 'GeistMono Nerd Font' installs as the
+# key 'GeistMonoNerdFont-Regular (TrueType)'). Match with whitespace stripped from
+# both sides so a font we just installed is actually recognised.
 function Test-PoshPaletteFontInstalled {
     param([Parameter(Mandatory)][string] $Face)
     if (-not ($IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop')) { return $true }
+    $needle = $Face -replace '\s', ''
     foreach ($key in 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts',
                      'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts') {
         if (Test-Path $key) {
             $names = (Get-ItemProperty $key).psobject.Properties.Name
-            if ($names | Where-Object { $_ -like "$Face*" }) { return $true }
+            if ($names | Where-Object { ($_ -replace '\s', '') -like "$needle*" }) { return $true }
         }
     }
     return $false
