@@ -152,7 +152,7 @@ function Show-PoshPalettePreview {
 # -CustomPrompt is given, a "Type a name..." row lets you enter a value directly
 # (returned as a synthetic item), so you can use any oh-my-posh theme / font name.
 function Show-PoshPaletteList {
-    param([string] $Title, [array] $Items, [scriptblock] $PreviewFor, [string] $CustomPrompt)
+    param([string] $Title, [array] $Items, [scriptblock] $PreviewFor, [string] $CustomPrompt, [string] $Current)
 
     $hasCustom = [bool]$CustomPrompt
     $customIdx = if ($hasCustom) { $Items.Count } else { -1 }
@@ -161,7 +161,14 @@ function Show-PoshPaletteList {
     $extra     = if ($hasCustom) { @('⌨ Type a name...', '← Back') } else { @('← Back') }
     $rows      = @($Items | ForEach-Object { $_.Name }) + $extra   # items, then Type-a-name / Back
     $width     = [Math]::Max((Get-PPMaxLen $rows), 16)
+    # Start the cursor on the currently-selected item so opening a picker lands on
+    # what you're already using, not the top of the list.
     $idx       = 0; $winTop = 0
+    if ($Current) {
+        for ($i = 0; $i -lt $Items.Count; $i++) {
+            if ($Items[$i].Id -eq $Current) { $idx = $i; break }
+        }
+    }
     [Console]::CursorVisible = $false
     try {
         while ($true) {
@@ -466,11 +473,15 @@ function New-PoshPaletteFontPreviewFor {
 function Invoke-PoshPaletteDetailMode {
     $presets = Get-PoshPaletteThemes
     if (-not $presets) { return }
-    $base = $presets[0].Data
 
-    # Working composition as a mutable hashtable, seeded from the first preset.
+    # Seed from the currently-applied composition so tweaking a single layer (e.g.
+    # the font) keeps the rest of your look. Falls back to the first bundled theme
+    # the first time, before anything has been applied.
+    $base = Get-PoshPaletteCurrentComposition
+
+    # Working composition as a mutable hashtable.
     $comp = @{
-        name     = 'Custom'
+        name     = $base.name ?? 'Custom'
         scheme   = $base.scheme
         palette  = $base.palette
         prompt   = $base.prompt
@@ -488,17 +499,17 @@ function Invoke-PoshPaletteDetailMode {
         param([string] $id)
         switch ($id) {
             'scheme' {
-                $p = Show-PoshPaletteList -Title 'Color scheme' -Items (Get-PoshPaletteCatalog schemes) -PreviewFor (New-PoshPalettePreviewFor $comp 'scheme')
+                $p = Show-PoshPaletteList -Title 'Color scheme' -Items (Get-PoshPaletteCatalog schemes) -PreviewFor (New-PoshPalettePreviewFor $comp 'scheme') -Current $comp.scheme
                 if ($p) { $comp.scheme = $p.Id }
             }
             'palette' {
-                $p = Show-PoshPaletteList -Title 'Shell colors (PSReadLine + output)' -Items (Get-PoshPaletteCatalog palettes) -PreviewFor (New-PoshPalettePreviewFor $comp 'palette')
+                $p = Show-PoshPaletteList -Title 'Shell colors (PSReadLine + output)' -Items (Get-PoshPaletteCatalog palettes) -PreviewFor (New-PoshPalettePreviewFor $comp 'palette') -Current $comp.palette
                 if ($p) { $comp.palette = $p.Id }
             }
             'prompt' {
                 $p = Show-PoshPaletteList -Title 'Prompt (oh-my-posh)' -Items (Get-PoshPaletteCatalog prompts) `
                     -PreviewFor (New-PoshPalettePreviewFor $comp 'prompt') `
-                    -CustomPrompt 'Type an oh-my-posh theme name (e.g. atomic, jandedobbeleer):'
+                    -CustomPrompt 'Type an oh-my-posh theme name (e.g. atomic, jandedobbeleer):' -Current $comp.prompt
                 if ($p) { $comp.prompt = $p.Id }
             }
             'font' {
@@ -506,7 +517,7 @@ function Invoke-PoshPaletteDetailMode {
                 # allow typing any installed font face directly.
                 $p = Show-PoshPaletteList -Title 'Font' -Items (Get-PoshPaletteFonts) `
                     -PreviewFor (New-PoshPaletteFontPreviewFor) `
-                    -CustomPrompt 'Type an installed font face (e.g. Cascadia Code NF):'
+                    -CustomPrompt 'Type an installed font face (e.g. Cascadia Code NF):' -Current $comp.font
                 if ($p) { $comp.font = $p.Id }
             }
             'opacity' {

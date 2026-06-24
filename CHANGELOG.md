@@ -8,17 +8,20 @@ This project follows [Semantic Versioning](https://semver.org/).
 ## [0.6.3]
 
 ### Fixed
-- **Raised contrast on hard-to-read syntax colours in five CF-authored themes.**
-  Daybreak's purple slot read as a faint lilac on the warm paper background, so
-  it was retuned to a deep wine-magenta; its dim brightGreen and brightBlue were
-  also deepened. An audit of every theme then surfaced the same class of issue
-  in Matcha Zen (green, cyan, yellow, brightYellow), Frostbyte (cyan), Cyberpunk
-  (purple) and Synthwave (red). Each colour keeps its hue and only shifts
-  lightness to clear WCAG AA (5:1) against its own background. Scheme, palette
-  (PSReadLine/PSStyle) and the `docs/` gallery swatches were updated together.
-  Faithful upstream ports (Solarized, Catppuccin, Gruvbox, Nord, GitHub, Rosé
-  Pine Dawn, Campbell) were left as published. Re-apply a theme to pick up the
-  new colours.
+- **Detail mode now starts from your current theme, not Eclipse.** The interactive
+  composer seeded its working composition from the first bundled theme, so
+  changing a single layer (e.g. the font) and applying silently reset every other
+  layer to Eclipse. It now seeds from the currently-applied composition
+  (`~/.poshpalette/current.json`), so a one-layer tweak keeps the rest of your
+  look. Each layer picker (scheme, palette, prompt, font) now also opens with the
+  cursor on your current selection instead of the top of the list.
+- **Installed Nerd Fonts are now detected correctly.** The apply step checked the
+  Windows font registry for a key starting with the family name (e.g. `GeistMono
+  Nerd Font`), but Nerd Font files register under their space-less file title
+  (`GeistMonoNerdFont-Regular`), so a font installed by `Install-PoshPaletteFont`
+  was never recognised and the "font is not installed" warning showed every time.
+  The check now compares with whitespace stripped from both sides, fixing it for
+  every multi-word face.
 
 ## [0.6.2]
 
